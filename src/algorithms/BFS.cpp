@@ -17,7 +17,7 @@ void bfs(state_t *initialState, bool withPruning = false) {
     state_t currentState, child;
     queue<state_t> frontier;
 
-    int ruleid, numberOfStates = 0, currentDepth = 0;
+    int ruleid, numberOfStates = 1, currentDepth = 0;
     ruleid_iterator_t iter;
 
     // Prints the header of the table
@@ -41,6 +41,13 @@ void bfs(state_t *initialState, bool withPruning = false) {
             frontier.push(child);
             numberOfStates++;
         }
+
+        // Hacer algo para llevar cuenta de la profundidad actual
+        // Ideas:
+        // - Sumar los estados que quedan en la cola por cada iteración
+        // - Guardar la profundidad de cada estado en la cola y contar cuántos hay de cada uno
+        // - Hacer estructura de datos alrededor del estado
+        // - Hacer una cola nueva por cada profundidad y reemplazar
 
         // Prints a table with the number of states visited at each depth
         printf("%d,%d\n", currentDepth, numberOfStates);
