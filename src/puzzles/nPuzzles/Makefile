@@ -18,8 +18,8 @@ psvn2c_abstraction.c:
 
 .PRECIOUS: %.c
 
-%.iddfs: %.c ../../algorithms/IDDFS.cpp
-	$(CXX) $(OPT) ../../algorithms/IDDFS.cpp -include $< -o $@
+%.iddfs: %.c ../../algorithms/BFS.cpp
+	$(CXX) $(OPT) ../../algorithms/BFS.cpp -include $< -o $@
 	rm -f $*.c
 
 .PHONY: clean

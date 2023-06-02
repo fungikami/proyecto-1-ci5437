@@ -9,14 +9,15 @@ clock_t startTimer;
 
 /**
  * Visits the state and its children up to a certain depth
- * @param state     The state to visit
- * @param depth     The current depth
- * @param bound     The maximum depth to visit
+ * 
+ * @param initialState The initial state to start from
+ * @param depth The current depth
+ * @param bound The maximum depth to visit
  * @param numStates A vector containing the number of states visited at each depth
- * @param hist      The history of the state
+ * @param hist The history of the state
  */
 void bounded_dfs_visit(
-    state_t *state, 
+    state_t *initialState, 
     int depth, 
     int bound, 
     long int *numStates,
@@ -37,13 +38,13 @@ void bounded_dfs_visit(
     if (depth == bound) (*numStates)++;
 
     // Apply rules
-    init_fwd_iter(&iter, state);
+    init_fwd_iter(&iter, initialState);
     while ((ruleid = next_ruleid(&iter)) >= 0) {
 
         // If pruning, check if the state has been visited
         if (hist!=-1 && fwd_rule_valid_for_history(hist, ruleid) == 0) continue;
 
-        apply_fwd_rule(ruleid, state, &child);
+        apply_fwd_rule(ruleid, initialState, &child);
 
         // If pruning, update the history
         if (hist!=-1) {
@@ -66,26 +67,27 @@ void IDDFS(state_t *state, int withPruning = 0) {
     // If pruning, initialize the history, else -1
     int hist = withPruning ? init_history : -1;
 
-    printf("IDDFS\nDepth\t\t#States\t\tBranching Factor\n");
+    printf("IDDFS\nDepth,#States,Branching Factor\n");
 
     while (1) {
         bounded_dfs_visit(state, 0, bound, &numStates, hist);
-        printf("%d\t\t%ld\n", bound, numStates);
+        printf("%d,%ld\n", bound, numStates);
         bound++;
         numStates = 0;
     }
 }
 
 int main(int argc, char const *argv[]) {
-    int d;
-    state_t goal;
-    first_goal_state(&goal, &d);
+    // Generates an initial state (the goal state in this case)
+    int goal_num;
+    state_t goalState;
+    first_goal_state(&goalState, &goal_num);
 
-    // Check arguments if is using pruning
-    int withPruning = argc > 1 ? atoi(argv[1]) : 0;
+    // Checks arguments to see if it's using pruning
+    bool withPruning = argc > 1 ? atoi(argv[1]) : false;
 
-    // Start the timer
+    // Starts a timer
     startTimer = clock();
 
-    IDDFS(&goal, withPruning);
+    IDDFS(&goalState, withPruning);
 }

@@ -30,6 +30,10 @@
 *.exe
 *.out
 *.app
+*.iddfs
+*.bfs
 
 # bin folders
 bin/
+.vscode/c_cpp_properties.json
+.vscode/settings.json

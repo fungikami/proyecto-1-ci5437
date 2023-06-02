@@ -9,10 +9,11 @@ tiempos estipulados. Tambi&eacute;n es importante su &aacute;nalisis de resultad
 # Problemas
 
 Consideramos los siguientes problemas:
-* N-puzzles: 15-puzzle y 24-puzzle
-* Cubo de Rubik: 3x3x3
-* Top spin: 12-4, 14-4, y 17-4
-* Torre de Hanoi con 4 astas: 12, 14, y 18 discos
+
+- N-puzzles: 15-puzzle y 24-puzzle
+- Cubo de Rubik: 3x3x3
+- Top spin: 12-4, 14-4, y 17-4
+- Torre de Hanoi con 4 astas: 12, 14, y 18 discos
 
 # &Aacute;rboles de b&uacute;squeda
 
@@ -27,23 +28,24 @@ hasta la profundidad m&aacute;xima que se alcance en 15 minutos de ejecuci&oacut
 Se deben implementar heur&iacute;sticas PDBs para cada problema. Para los n-puzzles
 las PDBs deben ser aditivas. Para los otros problemas, se toma el m&aacute;ximo de
 varias PDBs. Leer el paper "Additive Pattern Databases" de Felner et al. que se
-incluye, y el paper sobre el Cubo de Rubik. Para el Cubo de Rubik, las PDBs 
+incluye, y el paper sobre el Cubo de Rubik. Para el Cubo de Rubik, las PDBs
 est&aacute;ndar pueden tomar demasiado espacio; en ese caso, se pueden crear mas
 PDBs de menor tama&ntilde;o.
 
 # Algoritmos informados
 
-Estudiar la b&uacute;squeda de *soluciones &oacute;ptimas* con algoritmos informados.
+Estudiar la b&uacute;squeda de _soluciones &oacute;ptimas_ con algoritmos informados.
 Buscar soluciones para las instancias dadas en cada problema utilizando los algoritmos:
-A* con eliminaci&oacute;n retardada de duplicados (DDD) e IDA* con eliminaci&oacute;n
+A*con eliminaci&oacute;n retardada de duplicados (DDD) e IDA* con eliminaci&oacute;n
 parcial de duplicados. Para las heur&iacute;sticas en cada problema:
-* N-puzzles: distancia Manhattan (15-puzzle) y diferentes additive PDBs (15- y 24-puzzle)
-* Cubo de Rubik: max de corner PDB y 2 edge PDBs (si son demasiado grandes, dividirlas en varias PDBs peque&ntilde;as)
-* Top Spin: max de diferents PDBs
-* Torre de Hanoi con 4 astas: max de diferentes PDBs
+
+- N-puzzles: distancia Manhattan (15-puzzle) y diferentes additive PDBs (15- y 24-puzzle)
+- Cubo de Rubik: max de corner PDB y 2 edge PDBs (si son demasiado grandes, dividirlas en varias PDBs peque&ntilde;as)
+- Top Spin: max de diferents PDBs
+- Torre de Hanoi con 4 astas: max de diferentes PDBs
 
 El tiempo m&aacute;ximo de ejecuci&oacute;n lo deciden ustedes seg&uacute;n los
-recursos que tengan a su disposici&oacute;n. Para A*, no permitan que el programa
+recursos que tengan a su disposici&oacute;n. Para A\*, no permitan que el programa
 utilice memoria virtual (paginaci&oacute;n sobre disco) ya que posiblemente correr&aacute; extremadamente
 lento y no podr&aacute;n resolver el problema (y la m&aacute;quina se les "congelar&aacute;").
 
@@ -57,5 +59,3 @@ y poder ejecutarlo. Se deben generar casos de prueba f&aacute;ciles y dif&iacute
 Deben entregar su implementación de la solución junto a un informe que explique las decisiones tomadas y los resultados de sus ejecuciones.
 
 Cualquier trabajo extra (heurísticas o algoritmos extra implementados, otros métodos de eliminación de duplicados, etc...) contará para los puntos de participación.
-
-
