@@ -40,8 +40,7 @@ void generateNPuzzle(int n) {
 
     // Header
     file << "# " << n << "-puzzle\n\n";
-    file << "DOMAIN tile " << nTiles << " \n\t\t";
-    file << "b ";
+    file << "DOMAIN tile " << nTiles << " \n\t\tb";
     for (int i = 1; i < nTiles; i++) file << i << " ";
 
     file << "\n\n" << nTiles << "\n\n";
