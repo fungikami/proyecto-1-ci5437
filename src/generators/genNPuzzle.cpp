@@ -5,7 +5,7 @@ using namespace std;
 void writeMove(int from, int to, fstream &file, int nTiles) {
     // LHS
     for (int i = 0; i < nTiles; i++) {
-        if (i == from) file << "b ";
+        if (i == from) file << "0 ";
         else if (i == to) file << "X ";
         else file << "- ";
     }
@@ -15,7 +15,7 @@ void writeMove(int from, int to, fstream &file, int nTiles) {
     // RHS
     for (int i = 0; i < nTiles; i++) {
         if (i == from) file << "X ";
-        else if (i == to) file << "b ";
+        else if (i == to) file << "0 ";
         else file << "- ";
     }
 
@@ -33,19 +33,19 @@ void generateNPuzzle(int n) {
 
     // Create file 
     file.open(s, ios::out);
-    if(!file){
+    if (!file) {
         cout<<"Error creating file"<<endl;
         return;
     }
 
     // Header
+    file << "# Ka Fung & Christopher Gómez\n";
     file << "# " << n << "-puzzle\n\n";
-    file << "DOMAIN tile " << nTiles << " \n\t\tb";
-    for (int i = 1; i < nTiles; i++) file << i << " ";
+    file << "# There are " << nTiles << " tiles\n";
+    file << nTiles << "\n\n";
+    file << "# Every space has " << nTiles << " possible values\n";
+    for (int i = 0; i < nTiles; i++) file << nTiles << " ";
 
-    file << "\n\n" << nTiles << "\n\n";
-
-    for (int i = 0; i < nTiles; i++) file <<"tile ";
     file << "\n\n";
 
     // Executes clockwise movements starting from the top left corner
@@ -64,8 +64,8 @@ void generateNPuzzle(int n) {
     }
 
     // Goal
-    file << "\nGOAL b ";
-    for (int i = 1; i < nTiles; i++) file << i << " ";
+    file << "\nGOAL ";
+    for (int i = 0; i < nTiles; i++) file << i << " ";
     file << "\n";
 
     file.close();
