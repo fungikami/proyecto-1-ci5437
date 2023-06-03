@@ -10,14 +10,14 @@ clock_t startTimer;
 /**
  * Visits the state and its children up to a certain depth
  * 
- * @param initialState The initial state to start from
+ * @param state The state to explore
  * @param depth The current depth
  * @param bound The maximum depth to visit
  * @param numStates A vector containing the number of states visited at each depth
  * @param hist The history of the state
  */
 void bounded_dfs_visit(
-    state_t *initialState, 
+    state_t *state, 
     int depth, 
     int bound, 
     long int *numStates,
@@ -27,24 +27,20 @@ void bounded_dfs_visit(
     int ruleid;
     ruleid_iterator_t iter;
 
-    // Check if the time limit has been reached
-    if ((double)(clock() - startTimer) / CLOCKS_PER_SEC >= TIME_LIMIT) {
-        printf("Time limit reached\n");
-        exit(0);
-    }
-    
+    // Base case
     if (depth > bound) return;
 
-    if (depth == bound) (*numStates)++;
+    // if (depth == bound)
+        (*numStates)++;
 
     // Apply rules
-    init_fwd_iter(&iter, initialState);
+    init_fwd_iter(&iter, state);
     while ((ruleid = next_ruleid(&iter)) >= 0) {
 
         // If pruning, check if the state has been visited
         if (hist!=-1 && fwd_rule_valid_for_history(hist, ruleid) == 0) continue;
 
-        apply_fwd_rule(ruleid, initialState, &child);
+        apply_fwd_rule(ruleid, state, &child);
 
         // If pruning, update the history
         if (hist!=-1) {
@@ -57,20 +53,21 @@ void bounded_dfs_visit(
 }
 
 /**
- * Iterative Deepening Depth-First Search
- * @param state The state to start from
+ * Iterative Deepening Depth-First Search algorithm implementation
+ *
+ * @param initialState The initial state to start from
  */
-void IDDFS(state_t *state, int withPruning = 0) {
+void iddfs(state_t initialState, int withPruning = 0) {
     int bound = 0;          // The current bound
     long int numStates = 0; // The number of states visited at each depth
 
     // If pruning, initialize the history, else -1
     int hist = withPruning ? init_history : -1;
 
-    printf("IDDFS\nDepth,#States,Branching Factor\n");
+    printf("Depth,Number of states,Branching factor\n");
 
-    while (1) {
-        bounded_dfs_visit(state, 0, bound, &numStates, hist);
+    for (;;) {
+        bounded_dfs_visit(&initialState, 0, bound, &numStates, hist);
         printf("%d,%ld\n", bound, numStates);
         bound++;
         numStates = 0;
@@ -86,8 +83,5 @@ int main(int argc, char const *argv[]) {
     // Checks arguments to see if it's using pruning
     bool withPruning = argc > 1 ? atoi(argv[1]) : false;
 
-    // Starts a timer
-    startTimer = clock();
-
-    IDDFS(&goalState, withPruning);
+    iddfs(goalState, withPruning);
 }

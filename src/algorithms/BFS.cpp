@@ -13,9 +13,10 @@ using namespace std;
  * @param initialState The initial state to start from
  * @param withPruning Whether to use pruning or not
  */
-void bfs(state_t *initialState, bool withPruning = false) {
+void bfs(state_t initialState, bool withPruning = false) {
     state_t currentState, child;
     queue<state_t> frontier;
+    queue<state_t> nextFrontier;
 
     int ruleid, numberOfStates = 1, currentDepth = 0;
     ruleid_iterator_t iter;
@@ -25,10 +26,8 @@ void bfs(state_t *initialState, bool withPruning = false) {
     printf("%d,%d\n", currentDepth, numberOfStates);
 
     // While there are states left to visit
-    frontier.push(*initialState);
+    frontier.push(initialState);
     while (!frontier.empty()) {
-        currentDepth++;
-
         // Extract the first state in the queue
         currentState = frontier.front();
         frontier.pop();
@@ -38,19 +37,19 @@ void bfs(state_t *initialState, bool withPruning = false) {
         while ((ruleid = next_ruleid(&iter)) >= 0) {
             apply_fwd_rule(ruleid, &currentState, &child);
 
-            frontier.push(child);
+            nextFrontier.push(child);
             numberOfStates++;
         }
+        
+        // Verifies if all the states in a depth have been visited
+        if (frontier.empty()) {
+            frontier = nextFrontier;
+            nextFrontier = queue<state_t>();
+            currentDepth++;
 
-        // Hacer algo para llevar cuenta de la profundidad actual
-        // Ideas:
-        // - Sumar los estados que quedan en la cola por cada iteración
-        // - Guardar la profundidad de cada estado en la cola y contar cuántos hay de cada uno
-        // - Hacer estructura de datos alrededor del estado
-        // - Hacer una cola nueva por cada profundidad y reemplazar
-
-        // Prints a table with the number of states visited at each depth
-        printf("%d,%d\n", currentDepth, numberOfStates);
+            // Prints a table with the number of states visited at each depth
+            printf("%d,%d\n", currentDepth, numberOfStates);
+        }
     }
 }
 
@@ -63,5 +62,5 @@ int main(int argc, char const *argv[]) {
     // Checks arguments to see if it's using pruning
     bool withPruning = argc > 1 ? atoi(argv[1]) : false;
 
-    bfs(&goalState);
+    bfs(goalState);
 }
