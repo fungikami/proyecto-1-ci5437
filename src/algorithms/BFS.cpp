@@ -2,10 +2,17 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <queue>
-
-#define TIME_LIMIT_S 900
+#include <signal.h>
 
 using namespace std;
+
+long int numStates = 1; // The number of states visited at each depth
+
+void timeout(int signum) {
+    printf("Time limit reached\n");
+    printf("Number of states visited: %ld\n", numStates);
+    exit(0);
+}
 
 /**
  * Breadth-First Search algorithm implementation, with and without pruning
@@ -18,12 +25,12 @@ void bfs(state_t initialState, bool withPruning = false) {
     queue<state_t> frontier;
     queue<state_t> nextFrontier;
 
-    int ruleid, numberOfStates = 1, currentDepth = 0;
+    int ruleid, currentDepth = 0;
     ruleid_iterator_t iter;
 
     // Prints the header of the table
     printf("Depth,Number of states\n");
-    printf("%d,%d\n", currentDepth, numberOfStates);
+    printf("%d,%ld\n", currentDepth, numStates);
 
     // While there are states left to visit
     frontier.push(initialState);
@@ -38,7 +45,7 @@ void bfs(state_t initialState, bool withPruning = false) {
             apply_fwd_rule(ruleid, &currentState, &child);
 
             nextFrontier.push(child);
-            numberOfStates++;
+            numStates++;
         }
         
         // Verifies if all the states in a depth have been visited
@@ -48,12 +55,14 @@ void bfs(state_t initialState, bool withPruning = false) {
             currentDepth++;
 
             // Prints a table with the number of states visited at each depth
-            printf("%d,%d\n", currentDepth, numberOfStates);
+            printf("%d,%ld\n", currentDepth, numStates);
         }
     }
 }
 
 int main(int argc, char const *argv[]) {
+    signal(SIGTERM, timeout);
+
     // Generates an initial state (the goal state in this case)
     state_t goalState;
     int goal_num;

@@ -1,27 +1,29 @@
 CC = gcc
 CXX = g++
-OPT = -Wall -O3 -Wno-unused-function -Wno-unused-variable
+OPT = -Wall -Ofast -Wno-unused-function -Wno-unused-variable -march=native
 PSVNOPT = --no_state_map --no_abstraction --backwards_moves --fwd_history_len=1
+ROOTPATH = ../..# relative to this file
+PSVNEXEC = psvnAPI/bin/psvn2c# relative to root path
+BINPATH = ../../bin# relative to root path
 
-psvn2c_core.c:
-	cp ../../psvnAPI/src/psvn2c_core.c ./psvn2c_core.c
-
-psvn2c_state_map.c:
-	cp ../../psvnAPI/src/psvn2c_state_map.c ./psvn2c_state_map.c
-
-psvn2c_abstraction.c:
-	cp ../../psvnAPI/src/psvn2c_abstraction.c ./psvn2c_abstraction.c
-
-%.c: ./%.psvn psvn2c_core.c psvn2c_state_map.c psvn2c_abstraction.c
-	../../psvnAPI/bin/psvn2c $(PSVNOPT) --name=$(*F) < $< > $@
-	rm -f ./psvn2c_core.c ./psvn2c_state_map.c ./psvn2c_abstraction.c
+all: rubik3Sticker.iddfs \
+	rubik3Sticker.bfs
 
 .PRECIOUS: %.c
 
-%.iddfs: %.c ../../algorithms/IDDFS.cpp
-	$(CXX) $(OPT) ../../algorithms/IDDFS.cpp -include $< -o $@
-	rm -f $*.c
+%.c: %.psvn
+	$(ROOTPATH)/$(PSVNEXEC) $(PSVNOPT) < $< > $@
 
-.PHONY: clean
+%.iddfs: %.c $(ROOTPATH)/algorithms/IDDFS.cpp
+	$(CXX) $(OPT) "${ROOTPATH}/algorithms/IDDFS.cpp" -include $< -o $@
+
+%.bfs: %.c $(ROOTPATH)/algorithms/BFS.cpp
+	$(CXX) $(OPT) "${ROOTPATH}/algorithms/BFS.cpp" -include $< -o $@
+
+.PHONY: clean cleanall
+
 clean:
-	rm -fr *.iddfs psvn2c_core.c psvn2c_state_map.c psvn2c_abstraction.c *.dSYM *.o *~
+	rm -fr *.dSYM *.o *~ *.c
+
+cleanall: clean
+	rm -fr *.iddfs *.bfs

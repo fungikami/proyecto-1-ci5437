@@ -1,11 +1,15 @@
 #include <vector>
-#include <ctime>
-
-#define TIME_LIMIT 900
+#include <signal.h>
 
 using namespace std;
 
-clock_t startTimer;
+long int numStates = 0; // The number of states visited at each depth
+
+void timeout(int signum) {
+    printf("Time limit reached\n");
+    printf("Number of states visited: %ld\n", numStates);
+    exit(0);
+}
 
 /**
  * Visits the state and its children up to a certain depth
@@ -58,8 +62,8 @@ void bounded_dfs_visit(
  * @param initialState The initial state to start from
  */
 void iddfs(state_t initialState, int withPruning = 0) {
-    int bound = 0;          // The current bound
-    long int numStates = 0; // The number of states visited at each depth
+    // Sets the initial bound
+    int bound = 0;
 
     // If pruning, initialize the history, else -1
     int hist = withPruning ? init_history : -1;
@@ -75,6 +79,8 @@ void iddfs(state_t initialState, int withPruning = 0) {
 }
 
 int main(int argc, char const *argv[]) {
+    signal(SIGTERM, timeout);
+
     // Generates an initial state (the goal state in this case)
     int goal_num;
     state_t goalState;

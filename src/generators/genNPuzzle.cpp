@@ -28,7 +28,7 @@ void generateNPuzzle(int n) {
 
     fstream file;
     ostringstream os;
-    os << n << "-puzzle.psvn";
+    os << n << "puzzle.psvn";
     string s = os.str();
 
     // Create file 
