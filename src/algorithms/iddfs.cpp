@@ -107,10 +107,6 @@ void iddfs(state_t initialState, bool pruning = false) {
     // Sets the initial bound
     int bound = 0;
 
-    // Header of the table
-    printf("| Depth | Number of states |\n");
-    printf("| ----: | ----------------:|\n");
-
     for (;;) {
         if (pruning) {
             int hist = init_history;
@@ -144,6 +140,10 @@ int main(int argc, char const *argv[]) {
 
     // Checks arguments to see if it's using pruning
     bool pruning = argc > 1 ? true : false;
+
+    // Header of the table
+    printf("| Depth | Number of states |\n");
+    printf("| ----: | ----------------:|\n");
 
     iddfs(goal_state, pruning);
 }
