@@ -18,11 +18,11 @@ all: topSpin12-4.iddfs \
 %.c: %.psvn
 	$(ROOTPATH)/$(PSVNEXEC) $(PSVNOPT) < $< > $@
 
-%.iddfs: %.c $(ROOTPATH)/algorithms/IDDFS.cpp
-	$(CXX) $(OPT) "${ROOTPATH}/algorithms/IDDFS.cpp" -include $< -o $@
+%.iddfs: %.c $(ROOTPATH)/algorithms/iddfs.cpp
+	$(CXX) $(OPT) "${ROOTPATH}/algorithms/iddfs.cpp" -include $< -o $@
 
-%.bfs: %.c $(ROOTPATH)/algorithms/BFS.cpp
-	$(CXX) $(OPT) "${ROOTPATH}/algorithms/BFS.cpp" -include $< -o $@
+%.bfs: %.c $(ROOTPATH)/algorithms/bfs.cpp
+	$(CXX) $(OPT) "${ROOTPATH}/algorithms/bfs.cpp" -include $< -o $@
 
 .PHONY: clean cleanall
 
