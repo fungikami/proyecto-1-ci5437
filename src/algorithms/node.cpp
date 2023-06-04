@@ -2,8 +2,8 @@
 
 using namespace std;
 
-Node::Node(state_t newNode, Node *newParent, unsigned newG) {
-  state = newNode;
-  parent = newParent;
-  g = newG;
+Node::Node(state_t state, Node *parent, unsigned path_cost) {
+    this->state = state;
+    this->parent = parent;
+    this->path_cost = path_cost;
 }

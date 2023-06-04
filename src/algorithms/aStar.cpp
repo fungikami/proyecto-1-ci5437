@@ -6,7 +6,7 @@
 
 using namespace std;
 
-int64_t nodesExpanded;
+int64_t nodes_expanded;
 
 /**
  * A* (best-first search with delayed deduplication)
@@ -27,7 +27,7 @@ int aStar(state_t *initState, int (*h)(state_t *)) {
     Q.Add(0, 0, *initState);
 
     while (!Q.Empty()) {
-        ++nodesExpanded;
+        nodes_expanded++;
 
         // Current distance 
         g = Q.CurrentPriority();
@@ -54,12 +54,12 @@ int aStar(state_t *initState, int (*h)(state_t *)) {
                 apply_fwd_rule(ruleid, &state, &child);
 
                 // Compute the distance to the child state
-                int gChild = g + get_fwd_rule_cost(ruleid);
-                int hChild = h(&child);  
-                int ghChild = gChild + hChild;
-                if (hChild < INT_MAX) {
+                int g_child = g + get_fwd_rule_cost(ruleid);
+                int h_child = h(&child);  
+                int gh_child = g_child + h_child;
+                if (h_child < INT_MAX) {
                     // Add the state to the queue
-                    Q.Add(ghChild, gChild, child);
+                    Q.Add(gh_child, g_child, child);
                 }
             }
         }
@@ -72,6 +72,5 @@ int aStar(state_t *initState, int (*h)(state_t *)) {
 int main(int argc, char **argv) {
     printf("A*\n");
 
-    nodesExpanded = 0;
-
+    nodes_expanded = 0;
 }

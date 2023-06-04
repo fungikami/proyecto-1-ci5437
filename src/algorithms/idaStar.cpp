@@ -8,7 +8,7 @@
 
 using namespace std;
 
-int64_t nodesExpanded;
+int64_t nodes_expanded;
 
 /**
  * Visits the state and its children up to a certain depth
@@ -30,7 +30,7 @@ pair<Node *, unsigned> f_bounded_dfs_visit(Node *n, unsigned bound, int hist) {
     if (is_goal(&n->state)) return make_pair(n, n->g);
 
     // Expand the node
-    ++nodesExpanded;
+    nodes_expanded++;
     t = INT_MAX;
     init_fwd_iter(&iter, &n->state);
     while ((ruleid = next_ruleid(&iter)) >= 0) {
@@ -72,6 +72,6 @@ Node idaStar(state_t *state) {
 int main(int argc, char **argv) {
     printf("IDA*\n");
 
-    nodesExpanded = 0;
+    nodes_expanded = 0;
 
 }

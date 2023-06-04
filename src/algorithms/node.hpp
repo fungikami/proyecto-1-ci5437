@@ -1,5 +1,5 @@
-#ifndef NODE_H
-#define NODE_H
+#ifndef NODE_HPP
+#define NODE_HPP
 
 using namespace std;
 
@@ -8,10 +8,15 @@ using namespace std;
  */
 class Node {
   public:
-    state_t state;  // Node state
-    Node *parent;   // Parent node
-    unsigned g;     // Cost
-    
+    /** State represented by the node */
+    state_t state;
+
+    /** Parent node */
+    Node *parent;
+
+    /** Partial cost of the path from the root to this node */
+    unsigned path_cost;
+
     Node(state_t state, Node *parent, unsigned g);
 };
 
