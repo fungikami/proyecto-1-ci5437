@@ -1,4 +1,6 @@
-project 0
+map colour RED WHITE
+map colour GREEN WHITE
+map colour BLUE WHITE
 project 2
 project 4
 project 6
@@ -22,3 +24,4 @@ project 40
 project 42
 project 44
 project 46
+project 48

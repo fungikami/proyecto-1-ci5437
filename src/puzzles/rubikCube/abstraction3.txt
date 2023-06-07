@@ -1,3 +1,6 @@
+map colour RED WHITE
+map colour GREEN WHITE
+map colour BLUE WHITE
 project 1
 project 3
 project 5
