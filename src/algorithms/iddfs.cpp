@@ -41,13 +41,13 @@ void bounded_dfs_visit(
     (*n_states)++;
 
     // Base case
-    if (depth > bound) return;
+    if (depth == bound) return;
 
     // Apply rules
-    init_fwd_iter(&iter, state);
+    init_bwd_iter(&iter, state);
 
     while ((ruleid = next_ruleid(&iter)) >= 0) {
-        apply_fwd_rule(ruleid, state, &child);
+        apply_bwd_rule(ruleid, state, &child);
         bounded_dfs_visit(&child, depth + 1, bound, n_states);
     }
 }
@@ -80,20 +80,20 @@ void bounded_dfs_visit_with_pruning(
 
 
     // Apply rules
-    init_fwd_iter(&iter, state);
+    init_bwd_iter(&iter, state);
 
     while ((ruleid = next_ruleid(&iter)) >= 0) {
-        if (!fwd_rule_valid_for_history(hist, ruleid)) continue;
+        if (!bwd_rule_valid_for_history(hist, ruleid)) continue;
 
         // Generate the child state and update the history
-        apply_fwd_rule(ruleid, state, &child);
+        apply_bwd_rule(ruleid, state, &child);
 
         bounded_dfs_visit_with_pruning(
             &child,
             depth + 1,
             bound,
             n_states,
-            next_fwd_history(hist, ruleid)
+            next_bwd_history(hist, ruleid)
         );
     }
 }
@@ -105,7 +105,7 @@ void bounded_dfs_visit_with_pruning(
  */
 void iddfs(state_t initialState, bool pruning = false) {
     // Sets the initial bound
-    int bound = 0;
+    int bound = 1;
 
     for (;;) {
         if (pruning) {

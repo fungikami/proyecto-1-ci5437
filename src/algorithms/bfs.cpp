@@ -59,17 +59,17 @@ void bfs(state_t initial_state) {
         frontier.pop();
 
         // Iterate over every child of the current state
-        init_fwd_iter(&iter, &current_state);
+        init_bwd_iter(&iter, &current_state);
         while ((ruleid = next_ruleid(&iter)) >= 0) {
-            apply_fwd_rule(ruleid, &current_state, &child);
+            apply_bwd_rule(ruleid, &current_state, &child);
 
             // Generates the history of the child
-            hist = next_fwd_history(hist, ruleid);
+            hist = next_bwd_history(hist, ruleid);
 
             next_frontier.push(child);
             n_states++;
         }
-        
+
         // Verifies if all the states in a depth have been visited
         if (frontier.empty()) {
             frontier = next_frontier;
@@ -105,15 +105,15 @@ void bfs_with_pruning(state_t initial_state) {
         frontier.pop();
 
         // Iterate over every child of the current state
-        init_fwd_iter(&iter, &current_state.state);
+        init_bwd_iter(&iter, &current_state.state);
         while ((ruleid = next_ruleid(&iter)) >= 0) {
-            if (fwd_rule_valid_for_history(current_state.hist, ruleid) == 0)
+            if (bwd_rule_valid_for_history(current_state.hist, ruleid) == 0)
                 continue;
 
-            apply_fwd_rule(ruleid, &current_state.state, &child.state);
+            apply_bwd_rule(ruleid, &current_state.state, &child.state);
 
             // Generates the history of the child
-            child.hist = next_fwd_history(current_state.hist, ruleid);
+            child.hist = next_bwd_history(current_state.hist, ruleid);
 
             next_frontier.push(child);
             n_states++;
