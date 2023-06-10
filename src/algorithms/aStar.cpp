@@ -10,6 +10,7 @@ int64_t nodes_expanded;
 
 /**
  * A* (best-first search with delayed deduplication)
+ * 
  * @param initState The initial state
  * @param h Heuristic
  */

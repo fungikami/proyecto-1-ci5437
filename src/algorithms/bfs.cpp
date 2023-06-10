@@ -16,22 +16,23 @@ long int n_states = 1;
  * @param signum The signal number
  */
 void timeout(int signum) {
+    fprintf("last depth,%ld\n", n_states);
+
     // Prints to stderr so that it doesn't interfere with the output
     fprintf(stderr, "Time limit reached\n");
     fprintf(stderr, "Number of states visited: %ld\n", n_states);
     exit(0);
 }
 
-// TODO: Struct to store a state and its hist
 class State {
-    public:
-        state_t state;
-        int hist;
+  public:
+    state_t state;
+    int hist;
 
-        State(state_t state, int hist) {
-            this->state = state;
-            this->hist = hist;
-        }
+    State(state_t state, int hist) {
+        this->state = state;
+        this->hist = hist;
+    }
 };
 
 /**
@@ -77,7 +78,7 @@ void bfs(state_t initial_state) {
             current_depth++;
 
             // Prints a table with the number of states visited at each depth
-            printf("| %d | %ld |\n", current_depth, n_states);
+            printf("%d,%ld\n", current_depth, n_states);
         }
     }
 }
@@ -126,7 +127,7 @@ void bfs_with_pruning(state_t initial_state) {
             current_depth++;
 
             // Prints a table with the number of states visited at each depth
-            printf("| %d | %ld |\n", current_depth, n_states);
+            printf("%d,%ld\n", current_depth, n_states);
         }
     }
 }
@@ -143,8 +144,7 @@ int main(int argc, char const *argv[]) {
     bool pruning = argc > 1 ? true : false;
 
     // Header of the table
-    printf("| Depth | Number of states |\n");
-    printf("| ----: | ----------------:|\n");
+    printf("Depth,Number of states\n");
 
     if (pruning) bfs_with_pruning(goal_state);
     else bfs(goal_state);

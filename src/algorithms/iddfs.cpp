@@ -14,6 +14,8 @@ long int n_states = 0;
  * @param signum The signal number
  */
 void timeout(int signum) {
+    fprintf("last depth,%ld\n", n_states);
+
     // Prints to stderr so that it doesn't interfere with the output
     fprintf(stderr, "Time limit reached\n");
     fprintf(stderr, "Number of states visited: %ld\n", n_states);
@@ -122,7 +124,7 @@ void iddfs(state_t initialState, bool pruning = false) {
         }
 
         // Prints the number of states visited at each depth
-        printf("| %d | %ld |\n", bound, n_states);
+        printf("%d,%ld\n", bound, n_states);
 
         // Augments the bound and resets the number of states visited
         bound++;
@@ -142,8 +144,7 @@ int main(int argc, char const *argv[]) {
     bool pruning = argc > 1 ? true : false;
 
     // Header of the table
-    printf("| Depth | Number of states |\n");
-    printf("| ----: | ----------------:|\n");
+    printf("Depth,Number of states\n");
 
     iddfs(goal_state, pruning);
 }
