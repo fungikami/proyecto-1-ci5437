@@ -41,3 +41,9 @@ proy1.code-workspace
 
 # Compiled psvn files
 src/puzzles/****/*.c
+
+# PSVN
+*.pdb
+*.abst
+*.a_star
+*.ida_star

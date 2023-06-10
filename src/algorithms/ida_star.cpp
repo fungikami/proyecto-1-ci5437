@@ -4,7 +4,7 @@
 #include <limits.h>
 
 #include "node.hpp"
-#include "../psvnAPI/global/priority_queue.hpp"
+#include "priority_queue.hpp"
 
 using namespace std;
 
@@ -57,7 +57,7 @@ pair<Node *, unsigned> f_bounded_dfs_visit(Node *n, unsigned bound, int hist) {
  * @param state The initial state
  * @return The goal node
  */
-Node idaStar(state_t *state) {
+Node ida_star(state_t *state) {
     Node root(state, NULL, 0);
     pair<Node *, int> p;
     unsigned bound = h(state);
@@ -67,11 +67,4 @@ Node idaStar(state_t *state) {
         if (p.first != NULL) return *p.first;
         bound = p.second;
     }
-}
-
-int main(int argc, char **argv) {
-    printf("IDA*\n");
-
-    nodes_expanded = 0;
-
 }
