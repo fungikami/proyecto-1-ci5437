@@ -11,43 +11,44 @@ int64_t nodes_expanded;
 /**
  * A* (best-first search with delayed deduplication)
  * 
- * @param initState The initial state
+ * @param init_state The initial state
  * @param h Heuristic
  */
-int aStar(state_t *initState, int (*h)(state_t *)) {
+int a_star(state_t *init_state, int (*h)(state_t *)) {
     state_t state, child;
     int ruleid, g;
     ruleid_iterator_t iter;
 
     // Distance map
     state_map_t *distances = new_state_map();
-    set_state_map(distances, initState, 0);
+    set_state_map(distances, init_state, 0);
 
-    // Queue of states to visit
-    PriorityQueue<state_t> Q;
-    Q.Add(0, 0, *initState);
+    // Min-priority queue on the f-value (g + h)
+    PriorityQueue<state_t> frontier;
+    frontier.Add(h(init_state), 0, *init_state);
 
-    while (!Q.Empty()) {
+    while (!frontier.Empty()) {
         nodes_expanded++;
 
         // Current distance 
-        g = Q.CurrentPriority();
+        g = frontier.CurrentPriority();
 
         // Get the state with the lowest f-value
-        state = Q.Top();
-        Q.Pop();
+        state = frontier.Top();
+        frontier.Pop();
+
+        // If the state is a goal state
+        if (is_goal(&state)) {
+            printf("Goal state found with distance %d\n", g);
+            return g;
+        }
+
         int *old_g = state_map_get(distances, &state);
 
         // If the state was not visited or if the new distance is lower
         if (old_g == NULL || g < *old_g) {
             // Add the state to the distance map
             set_state_add(distances, &state, g);
-
-            // If the state is a goal state
-            if (is_goal(&state)) {
-                printf("Goal state found with distance %d\n", g);
-                return g;
-            }
 
             // Expand the state
             init_fwd_iter(&iter, &state);
@@ -56,11 +57,11 @@ int aStar(state_t *initState, int (*h)(state_t *)) {
 
                 // Compute the distance to the child state
                 int g_child = g + get_fwd_rule_cost(ruleid);
-                int h_child = h(&child);  
-                int gh_child = g_child + h_child;
+                int h_child = h(&child);
+                int f_child = g_child + h_child;
                 if (h_child < INT_MAX) {
                     // Add the state to the queue
-                    Q.Add(gh_child, g_child, child);
+                    frontier.Add(f_child, g_child, child);
                 }
             }
         }
