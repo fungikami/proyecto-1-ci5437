@@ -1,12 +1,7 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <iostream>
-#include <limits.h>
 #include "priority_queue.hpp"
+using namespace std;
 
 #define MAX_LINE_LENGTH 999
-
-using namespace std;
 
 int64_t nodes_expanded;
 
@@ -16,18 +11,19 @@ int64_t nodes_expanded;
  * @param init_state The initial state
  * @param h Heuristic
  */
-int a_star(state_t *init_state, unsigned (*h)(state_t)) {
+int a_star(state_t *init_state, int (*h)(state_t*)) {
     state_t state, child;
-    int ruleid, g;
+    int ruleid, g, *old_g;
     ruleid_iterator_t iter;
+    state_map_t *distances;
+    PriorityQueue<state_t> frontier;
 
     // Distance map
-    state_map_t *distances = new_state_map();
+    distances = new_state_map();
     state_map_add(distances, init_state, 0);
 
     // Min-priority queue on the f-value (g + h)
-    PriorityQueue<state_t> frontier;
-    frontier.Add(h(*init_state), 0, *init_state);
+    frontier.Add(0, 0, *init_state);
 
     while (!frontier.Empty()) {
         nodes_expanded++;
@@ -45,10 +41,11 @@ int a_star(state_t *init_state, unsigned (*h)(state_t)) {
             return g;
         }
 
-        int *old_g = state_map_get(distances, &state);
+        // Get the distance to the state
+        old_g = state_map_get(distances, &state);
 
         // If the state was not visited or if the new distance is lower
-        if (old_g == NULL || g < *old_g) {
+        if (old_g == nullptr || g <= *old_g) {
             // Update the distance
             state_map_add(distances, &state, g);
 
@@ -59,11 +56,12 @@ int a_star(state_t *init_state, unsigned (*h)(state_t)) {
 
                 // Compute the distance to the child state
                 int g_child = g + get_fwd_rule_cost(ruleid);
-                int h_child = h(child);  
+                int h_child = h(&child); 
                 int f_child = g_child + h_child;
 
                 if (h_child < INT_MAX) {
                     // Add the state to the queue
+                    state_map_add(distances, &child, f_child);
                     frontier.Add(f_child, g_child, child);
                 }
             }
@@ -88,7 +86,7 @@ int main(int argc, char **argv) {
     // Read the state. 
     // Ex: 7 15 8 2 13 6 3 12 11 0 4 10 9 5 1 14 
     printf("Insert a state followed by ENTER: ");
-    if (fgets(str, sizeof str, stdin) == NULL) {
+    if (fgets(str, sizeof str, stdin) == nullptr) {
         printf("Error: empty input line.\n");
         return 0; 
     }
@@ -99,7 +97,7 @@ int main(int argc, char **argv) {
     printf("%s\n", str);
 
     // TO-DO BETTEHH Open the PDBs
-    openPDBs();
+    init_heuristic();
 
     // Convert the string to a state
     n = read_state(str, &state);
