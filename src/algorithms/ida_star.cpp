@@ -1,12 +1,12 @@
-#include <stdlib.h>
-#include <stdio.h>
 #include <iostream>
-#include <limits.h>
-
+#include <algorithm>
+#include <utility>      // std::pair
 #include "node.hpp"
 #include "priority_queue.hpp"
 
 using namespace std;
+
+#define MAX_LINE_LENGTH 999
 
 int64_t nodes_expanded;
 
@@ -17,17 +17,18 @@ int64_t nodes_expanded;
  * @param bound The maximum depth
  * @return A pair containing the goal node and its cost
  */
-pair<Node *, unsigned> f_bounded_dfs_visit(Node *n, unsigned bound, int hist) {
-    int t, ruleid;
+pair<Node *, unsigned> f_bounded_dfs_visit(Node *n, unsigned bound, int hist, int (*h)(state_t*)) {
+    int ruleid;
+    unsigned t;
     ruleid_iterator_t iter;
     state_t child;  
 
     // If the f-value is greater than the bound, return the f-value
-    unsigned f = n->g + h(&n->state);
-    if (f > bound) return make_pair(NULL, f);
+    unsigned f = n->path_cost + h(&n->state);
+    if (f > bound) return make_pair(nullptr, f);
 
     // If the state is a goal state, return the node
-    if (is_goal(&n->state)) return make_pair(n, n->g);
+    if (is_goal(&n->state)) return make_pair(n, n->path_cost);
 
     // Expand the node
     nodes_expanded++;
@@ -40,31 +41,71 @@ pair<Node *, unsigned> f_bounded_dfs_visit(Node *n, unsigned bound, int hist) {
         if (!fwd_rule_valid_for_history(hist, ruleid)) continue;
 
         // Create a new node for the child
-        Node m(child, n, n->g + get_fwd_rule_cost(ruleid));
+        Node m(child, n, n->path_cost + get_fwd_rule_cost(ruleid));
 
         // Visit the child node
-        pair<Node *, unsigned> p = f_bounded_dfs_visit(&m, bound);
+        pair<Node *, unsigned> p = f_bounded_dfs_visit(&m, bound, next_fwd_history(hist, ruleid), h);
         if (p.first != NULL) return p;
         t = min(t, p.second);
     }
 
-    return make_pair(NULL, t);
+    return make_pair(nullptr, t);
 }
 
 /**
  * IDA* algorithm
  * 
  * @param state The initial state
+ * @param h Heuristic
  * @return The goal node
  */
-Node ida_star(state_t *state) {
-    Node root(state, NULL, 0);
+Node ida_star(state_t *state, int (*h)(state_t*)) {
+    Node root(*state, NULL, 0);
     pair<Node *, int> p;
     unsigned bound = h(state);
 
     while (1) {
-        p = f_bounded_dfs_visit(&root, bound, init_history);
+        p = f_bounded_dfs_visit(&root, bound, init_history, h);
         if (p.first != NULL) return *p.first;
         bound = p.second;
     }
+}
+
+int main(int argc, char **argv) {
+    printf("IDA*\n");
+
+    // VARIABLES FOR INPUT
+    char str[MAX_LINE_LENGTH + 1];
+    ssize_t n; 
+    state_t state; 
+
+    // Read the state. 
+    // Ex: 7 15 8 2 13 6 3 12 11 0 4 10 9 5 1 14 
+    printf("Insert a state followed by ENTER: ");
+    if (fgets(str, sizeof str, stdin) == NULL) {
+        printf("Error: empty input line.\n");
+        return 0; 
+    }
+
+    str[strlen(str) - 1] = '\0';
+    
+    printf("State entered: " );
+    printf("%s\n", str);
+
+    // TO-DO BETTEHH Open the PDBs
+    init_heuristic();
+
+    // Convert the string to a state
+    n = read_state(str, &state);
+    if (n <= 0) {
+        printf("Error: invalid state entered.\n");
+        return 0; 
+    }
+
+    nodes_expanded = 0;
+    Node node = ida_star(&state, heuristic);
+    printf("Distance: %d\n", node.path_cost);
+    printf("Nodes expanded: %ld\n", nodes_expanded);
+
+    return 0;
 }

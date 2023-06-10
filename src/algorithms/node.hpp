@@ -17,7 +17,14 @@ class Node {
     /** Partial cost of the path from the root to this node */
     unsigned path_cost;
 
-    Node(state_t state, Node *parent, unsigned g);
+    Node(state_t state, Node *parent, unsigned path_cost);
 };
+
+// ola puse esto aquí por ahora pq estoy vuelta un qlo con el makefile
+Node::Node(state_t state, Node *parent, unsigned path_cost) {
+    this->state = state;
+    this->parent = parent;
+    this->path_cost = path_cost;
+}
 
 #endif

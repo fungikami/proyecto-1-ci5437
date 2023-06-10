@@ -5,7 +5,7 @@
 CC = gcc
 CXX = g++
 OPT = -Wall -O3 -Wno-unused-function -Wno-unused-variable
-PSVNOPT = --state_map --backward_moves --fwd_history_len=0 --bwd_history_len=0
+PSVNOPT = --state_map --backward_moves --fwd_history_len=1 --bwd_history_len=0
 
 ROOTPATH = ../../..# relative to this file
 
@@ -71,6 +71,9 @@ abstractor:
 
 %.a_star: %.c $(ROOTPATH)/algorithms/a_star.cpp priority_queue.hpp node.hpp
 	$(CXX) $(OPT) $(ROOTPATH)/algorithms/a_star.cpp -include $< -include heuristic.cpp -o $@
+
+%.ida_star: %.c $(ROOTPATH)/algorithms/ida_star.cpp priority_queue.hpp node.hpp
+	$(CXX) $(OPT) $(ROOTPATH)/algorithms/ida_star.cpp -include $< -include heuristic.cpp -o $@
 
 .PHONY: clean
 clean:
