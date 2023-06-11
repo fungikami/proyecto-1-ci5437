@@ -9,13 +9,13 @@ fi
 mkdir results
 
 echo "Running IDDFS 15-puzzle, 15 minutes without pruning"
-timeout 900 ./15puzzle.iddfs > "results/${1}_iddfs_15puzzle_nopruning.md" &
+taskset -c 1 timeout 900 ./15puzzle.iddfs > "results/${1}_iddfs_15puzzle_nopruning.md" &
 
 echo "Running IDDFS 15-puzzle, 15 minutes with pruning"
-timeout 900 ./15puzzle.iddfs p > "results/${1}_iddfs_15puzzle_pruning.md" &
+taskset -c 2 timeout 900 ./15puzzle.iddfs p > "results/${1}_iddfs_15puzzle_pruning.md" &
 
 echo "Running IDDFS 24-puzzle, 15 minutes without pruning"
-timeout 900 ./24puzzle.iddfs > "results/${1}_iddfs_24puzzle_nopruning.md" &
+taskset -c 3 timeout 900 ./24puzzle.iddfs > "results/${1}_iddfs_24puzzle_nopruning.md" &
 
 echo "Running IDDFS 24-puzzle, 15 minutes with pruning"
-timeout 900 ./24puzzle.iddfs p > "results/${1}_iddfs_24puzzle_pruning.md" &
+taskset -c 4 timeout 900 ./24puzzle.iddfs p > "results/${1}_iddfs_24puzzle_pruning.md" &
