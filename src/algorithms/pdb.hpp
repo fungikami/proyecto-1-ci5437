@@ -20,26 +20,25 @@ class PDB {
      */
     PDB(string prefix) {
         // Load the abstraction
-        string abst_filename = prefix + ".abst";
-        abst = read_abstraction_from_file(abst_filename.c_str());
+        abst = read_abstraction_from_file((prefix + ".abst").c_str());
         if (abst == NULL) {
-            fprintf(stderr, "Couldn't read the abstraction %s\n", filename.c_str());
+            fprintf(stderr, "Error: invalid abstraction file.\n");
             return;
         }
 
-        // Load the pattern database (state_map)
-        string map_filename = prefix + ".state_map";
-        FILE* file = fopen(map_filename.c_str(), "r");
+        // Load the pattern database
+        FILE* file = fopen(prefix + ".pdb".c_str(), "r");
         if (file == NULL) {
-            fprintf(stderr, "Couldn't open the pdb file %s\n", map_filename.c_str());
+            fprintf(stderr, "Error: invalid PDB file.\n");
             destroy_abstraction(abst);
+            fclose(file);
             return;
         }
 
         map = read_state_map(file);
         fclose(file);
         if (map == NULL) {
-            fprintf(stderr, "Couldn't read the pdb %s\n", map_filename.c_str());
+            fprintf(stderr, "Error: invalid PDB file.\n");
             destroy_abstraction(abst);
             return;
         }
