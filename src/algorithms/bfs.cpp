@@ -16,7 +16,7 @@ long int n_states = 1;
  * @param signum The signal number
  */
 void timeout(int signum) {
-    fprintf("last depth,%ld\n", n_states);
+    printf("last depth,%ld\n", n_states);
 
     // Prints to stderr so that it doesn't interfere with the output
     fprintf(stderr, "Time limit reached\n");

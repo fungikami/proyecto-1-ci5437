@@ -1,7 +1,7 @@
 CC = gcc
 CXX = g++
 OPT = -Wall -Ofast -Wno-unused-function -Wno-unused-variable -march=native
-PSVNOPT = --no_state_map --no_abstraction --backwards_moves --fwd_history_len=1
+PSVNOPT = --no_state_map --no_abstraction --backwards_moves --fwd_history_len=1 --bwd_history_len=1
 ROOTPATH = ../..# relative to this file
 PSVNEXEC = psvnAPI/bin/psvn2c# relative to root path
 BINPATH = ../../bin# relative to root path
