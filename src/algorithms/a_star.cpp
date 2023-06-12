@@ -45,6 +45,7 @@ int a_star(state_t *init_state, int (*h)(state_t*)) {
         old_g = state_map_get(distances, &state);
 
         // If the state was not visited or if the new distance is lower
+        printf("old_g, g: %d, %d\n", *old_g, g);
         if (old_g == NULL || g <= *old_g) {
             // Update the distance
             state_map_add(distances, &state, g);
@@ -56,20 +57,21 @@ int a_star(state_t *init_state, int (*h)(state_t*)) {
 
                 // Compute the distance to the child state
                 int h_child = h(&child); 
+                printf("h_child: %d\n", h_child);
                 if (h_child < INT_MAX) {
                     // Add the state to the queue with the new distance
                     int g_child = g + get_fwd_rule_cost(ruleid);
                     int f_child = g_child + h_child;
+                    printf("f, g, h: %d, %d, %d\n", f_child, g_child, h_child);
                     frontier.Add(f_child, g_child, child);
                 }
             }
-        }
-
-        // Freeeeee
-        
+        }        
     }
 
     // No goal state found
+    frontier.Clear();
+    state_map_free(distances);
     printf("No goal state found.\n");
     return -1;
 }
