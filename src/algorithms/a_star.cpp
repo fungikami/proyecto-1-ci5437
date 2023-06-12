@@ -76,9 +76,9 @@ int main(int argc, char **argv) {
     state_t state; 
     clock_t start, end;
     float time;
-    
+
     for (;;) {
-        if (fgets(str, sizeof str, stdin) == NULL) return 0; 
+        if (fgets(str, sizeof str, stdin) == NULL) return 0;
 
         n = read_state(str, &state);
 
