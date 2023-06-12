@@ -1,4 +1,6 @@
 #include "priority_queue.hpp"
+#include "node.hpp"
+
 using namespace std;
 
 #define MAX_LINE_LENGTH 999
@@ -27,13 +29,16 @@ int a_star(state_t *init_state, int (*h)(state_t*)) {
 
     while (!frontier.Empty()) {
         nodes_expanded++;
-
-        // Current distance 
         g = frontier.CurrentPriority();
+        printf("g: %d\n", g);
 
         // Get the state with the lowest f-value
         state = frontier.Top();
         frontier.Pop();
+
+        // Current distance 
+        g -= h(&state);
+        printf("g_update: %d\n", g);
 
         // If the state is a goal state
         if (is_goal(&state)) {
