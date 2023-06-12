@@ -23,7 +23,7 @@ int a_star(state_t *init_state, int (*h)(state_t*)) {
     state_map_add(distances, init_state, 0);
 
     // Min-priority queue on the f-value (g + h)
-    frontier.Add(0, 0, *init_state);
+    frontier.Add(h(init_state), 0, *init_state);
 
     while (!frontier.Empty()) {
         nodes_expanded++;
@@ -45,7 +45,7 @@ int a_star(state_t *init_state, int (*h)(state_t*)) {
         old_g = state_map_get(distances, &state);
 
         // If the state was not visited or if the new distance is lower
-        if (old_g == nullptr || g <= *old_g) {
+        if (old_g == NULL || g <= *old_g) {
             // Update the distance
             state_map_add(distances, &state, g);
 
@@ -55,13 +55,11 @@ int a_star(state_t *init_state, int (*h)(state_t*)) {
                 apply_fwd_rule(ruleid, &state, &child);
 
                 // Compute the distance to the child state
-                int g_child = g + get_fwd_rule_cost(ruleid);
                 int h_child = h(&child); 
-                int f_child = g_child + h_child;
-
                 if (h_child < INT_MAX) {
-                    // Add the state to the queue
-                    state_map_add(distances, &child, f_child);
+                    // Add the state to the queue with the new distance
+                    int g_child = g + get_fwd_rule_cost(ruleid);
+                    int f_child = g_child + h_child;
                     frontier.Add(f_child, g_child, child);
                 }
             }
@@ -72,6 +70,7 @@ int a_star(state_t *init_state, int (*h)(state_t*)) {
     }
 
     // No goal state found
+    printf("No goal state found.\n");
     return -1;
 }
 
@@ -84,9 +83,10 @@ int main(int argc, char **argv) {
     state_t state; 
 
     // Read the state. 
+    // Ex: 1 2 6 3 4 5 0 7 8 9 10 11 12 13 14 15
     // Ex: 7 15 8 2 13 6 3 12 11 0 4 10 9 5 1 14 
     printf("Insert a state followed by ENTER: ");
-    if (fgets(str, sizeof str, stdin) == nullptr) {
+    if (fgets(str, sizeof str, stdin) == NULL) {
         printf("Error: empty input line.\n");
         return 0; 
     }
