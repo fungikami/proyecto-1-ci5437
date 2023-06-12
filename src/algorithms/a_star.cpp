@@ -30,7 +30,6 @@ int a_star(state_t *init_state, int (*h)(state_t*)) {
     while (!frontier.Empty()) {
         nodes_expanded++;
         g = frontier.CurrentPriority();
-        printf("g: %d\n", g);
 
         // Get the state with the lowest f-value
         state = frontier.Top();
@@ -38,7 +37,6 @@ int a_star(state_t *init_state, int (*h)(state_t*)) {
 
         // Current distance 
         g -= h(&state);
-        printf("g_update: %d\n", g);
 
         // If the state is a goal state
         if (is_goal(&state)) {
