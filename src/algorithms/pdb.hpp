@@ -1,6 +1,12 @@
 #ifndef PDB_HPP
 #define PDB_HPP
 
+#include <climits>
+#include <string>
+#include <vector>
+
+using namespace std;
+
 /**
  * PDB class that stores the abstraction and the pattern database
  * 
@@ -16,18 +22,18 @@ class PDB {
     /**
      * Constructor that opens the PDBs and stores them in the class attributes
      * 
-     * @param prefix The prefix of the PDB files
+     * @param name The name of the PDB files
      */
-    PDB(string prefix) {
+    PDB(string name) {
         // Load the abstraction
-        abst = read_abstraction_from_file((prefix + ".abst").c_str());
+        abst = read_abstraction_from_file((name + ".abst").c_str());
         if (abst == NULL) {
             fprintf(stderr, "Error: invalid abstraction file.\n");
             return;
         }
 
         // Load the pattern database
-        FILE* file = fopen(prefix + ".pdb".c_str(), "r");
+        FILE* file = fopen((name + ".pdb").c_str(), "r");
         if (file == NULL) {
             fprintf(stderr, "Error: invalid PDB file.\n");
             destroy_abstraction(abst);
@@ -45,14 +51,6 @@ class PDB {
     }
 
     /**
-     * Destructor that frees the memory of the PDBs and abstractions
-     */
-    ~PDB() {
-        destroy_abstraction(abst);
-        destroy_state_map(map);
-    }
-
-    /**
      * Computes the heuristic value of a state
      * 
      * @param state The state to compute the heuristic value
@@ -60,9 +58,9 @@ class PDB {
      */
     int get_cost(state_t* state) {
         // Look for the state in the PDB
-        state_t abst_state;
-        abstract_state(abst, state, &abst_state);
-        int* h = state_map_get(map, &abst_state);
+        state_t *aux_state = new state_t;
+        abstract_state(abst, state, aux_state);
+        int *h = state_map_get(map, aux_state);
 
         // If the state is not in the PDB, return infinity
         return h == NULL ? INT_MAX : *h;
