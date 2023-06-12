@@ -46,18 +46,18 @@ void init_heuristic() {
 int heuristic(state_t *state) {
 	// PDB values
 	state_t *aux_state = new state_t;
+	int sum = 0;
 
-	abstract_state(abstractions[0], state, aux_state);	
-	int sum = *state_map_get(state_maps[0], aux_state);
-	abstract_state(abstractions[1], state, aux_state);	
-	sum += *state_map_get(state_maps[1], aux_state);
-	abstract_state(abstractions[2], state, aux_state);	
-	sum += *state_map_get(state_maps[2], aux_state);
-	abstract_state(abstractions[3], state, aux_state);
-	sum += *state_map_get(state_maps[3], aux_state);
-	abstract_state(abstractions[4], state, aux_state);
-	sum += *state_map_get(state_maps[4], aux_state);
-	
+	// Compute the heuristic value
+	for (unsigned int i = 0; i < abstractions.size(); i++) {
+		// Get the state
+		abstract_state(abstractions[i], state, aux_state);
+
+		// Get the value
+		sum += *state_map_get(state_maps[i], aux_state);
+
+	}
+
 	delete aux_state;
 	return sum;
 }

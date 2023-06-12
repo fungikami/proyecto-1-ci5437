@@ -38,9 +38,7 @@ int a_star(state_t *init_state, int (*h)(state_t*)) {
         g -= h(&state);
 
         // If the state is a goal state
-        if (is_goal(&state)) {
-            return g;
-        }
+        if (is_goal(&state)) return g;
 
         // Get the distance to the state
         old_g = state_map_get(distances, &state);
@@ -68,7 +66,6 @@ int a_star(state_t *init_state, int (*h)(state_t*)) {
     }
 
     // No goal state found
-    printf("No goal state found, nodes expanded %ld\n", nodes_expanded);
     return -1;
 }
 
@@ -84,6 +81,7 @@ int main(int argc, char **argv) {
         if (fgets(str, sizeof str, stdin) == NULL) return 0; 
 
         n = read_state(str, &state);
+
         if (n <= 0) {
             printf("Error: invalid state.\n");
             continue; 

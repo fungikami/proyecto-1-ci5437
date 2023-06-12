@@ -76,7 +76,6 @@ int main(int argc, char **argv) {
     char str[MAX_LINE_LENGTH + 1], *filename;
     ssize_t n; 
     state_t state; 
-    state_t state; 
     clock_t start, end;
     float time;
     
