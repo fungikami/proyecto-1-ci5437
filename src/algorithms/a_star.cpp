@@ -32,13 +32,14 @@ int a_star(state_t *init_state, int (*h)(state_t*)) {
         // Get the state with the lowest f-value
         state = frontier.Top();
         frontier.Pop();
+        nodes_expanded++;
 
         // Current distance 
         g -= h(&state);
 
         // If the state is a goal state
         if (is_goal(&state)) {
-            printf("Goal state found with distance %d\n", g);
+            printf("Goal state found with distance %d, nodes expanded %ld\n", g, nodes_expanded);
             return g;
         }
 
@@ -68,44 +69,28 @@ int a_star(state_t *init_state, int (*h)(state_t*)) {
     }
 
     // No goal state found
-    printf("No goal state found.\n");
+    printf("No goal state found, nodes expanded %ld\n", nodes_expanded);
     return -1;
 }
 
 int main(int argc, char **argv) {
     printf("A*\n");
-
-    // VARIABLES FOR INPUT
-    char str[MAX_LINE_LENGTH + 1];
+    char str[MAX_LINE_LENGTH + 1], *filename;
     ssize_t n; 
     state_t state; 
-
-    // Read the state. 
-    printf("Insert a state followed by ENTER: ");
-    if (fgets(str, sizeof str, stdin) == NULL) {
-        printf("Error: empty input line.\n");
-        return 0; 
-    }
-
-    str[strlen(str) - 1] = '\0';
     
-    printf("State entered: " );
-    printf("%s\n", str);
+    for (;;) {
+        if (fgets(str, sizeof str, stdin) == NULL) return 0; 
 
-    // TO-DO BETTEHH Open the PDBs
-    init_heuristic();
+        n = read_state(str, &state);
+        if (n <= 0) {
+            printf("Error: invalid state.\n");
+            continue; 
+        }
 
-    // Convert the string to a state
-    n = read_state(str, &state);
-    if (n <= 0) {
-        printf("Error: invalid state entered.\n");
-        return 0; 
+        nodes_expanded = 0;
+        int d = a_star(&state, heuristic);
     }
-
-    nodes_expanded = 0;
-    int distance = a_star(&state, heuristic);
-    printf("Distance: %d\n", distance);
-    printf("Nodes expanded: %ld\n", nodes_expanded);
 
     return 0;
 }

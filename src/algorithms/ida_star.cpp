@@ -28,7 +28,10 @@ pair<Node *, unsigned> f_bounded_dfs_visit(Node *n, unsigned bound, int hist, in
     if (f > bound) return make_pair(nullptr, f);
 
     // If the state is a goal state, return the node
-    if (is_goal(&n->state)) return make_pair(n, n->path_cost);
+    if (is_goal(&n->state)) {
+        printf("Goal state found with distance %d, nodes expanded %ld\n", n->path_cost, nodes_expanded);
+        return make_pair(n, n->path_cost);
+    }
 
     // Expand the node
     nodes_expanded++;
@@ -73,39 +76,22 @@ Node ida_star(state_t *state, int (*h)(state_t*)) {
 
 int main(int argc, char **argv) {
     printf("IDA*\n");
-
-    // VARIABLES FOR INPUT
-    char str[MAX_LINE_LENGTH + 1];
+    char str[MAX_LINE_LENGTH + 1], *filename;
     ssize_t n; 
     state_t state; 
-
-    // Read the state. 
-    // Ex: 7 15 8 2 13 6 3 12 11 0 4 10 9 5 1 14 
-    printf("Insert a state followed by ENTER: ");
-    if (fgets(str, sizeof str, stdin) == NULL) {
-        printf("Error: empty input line.\n");
-        return 0; 
-    }
-
-    str[strlen(str) - 1] = '\0';
     
-    printf("State entered: " );
-    printf("%s\n", str);
+    for (;;) {
+        if (fgets(str, sizeof str, stdin) == NULL) return 0; 
 
-    // TO-DO BETTEHH Open the PDBs
-    init_heuristic();
+        n = read_state(str, &state);
+        if (n <= 0) {
+            printf("Error: invalid state.\n");
+            continue; 
+        }
 
-    // Convert the string to a state
-    n = read_state(str, &state);
-    if (n <= 0) {
-        printf("Error: invalid state entered.\n");
-        return 0; 
+        nodes_expanded = 0;
+        Node node = ida_star(&state, heuristic);
     }
-
-    nodes_expanded = 0;
-    Node node = ida_star(&state, heuristic);
-    printf("Distance: %d\n", node.path_cost);
-    printf("Nodes expanded: %ld\n", nodes_expanded);
 
     return 0;
 }
