@@ -3,7 +3,7 @@ using namespace std;
 
 #define MAX_LINE_LENGTH 999
 
-int64_t nodes_expanded;
+unsigned long int nodes_expanded;
 
 /**
  * A* (best-first search with delayed deduplication)
@@ -39,7 +39,6 @@ int a_star(state_t *init_state, int (*h)(state_t*)) {
 
         // If the state is a goal state
         if (is_goal(&state)) {
-            printf("Goal state found with distance %d, nodes expanded %ld\n", g, nodes_expanded);
             return g;
         }
 
@@ -78,6 +77,8 @@ int main(int argc, char **argv) {
     char str[MAX_LINE_LENGTH + 1], *filename;
     ssize_t n; 
     state_t state; 
+    clock_t start, end;
+    float time;
     
     for (;;) {
         if (fgets(str, sizeof str, stdin) == NULL) return 0; 
@@ -89,7 +90,16 @@ int main(int argc, char **argv) {
         }
 
         nodes_expanded = 0;
+        start = clock();
         int d = a_star(&state, heuristic);
+        end = clock();
+
+        time = (float)(end - start) / CLOCKS_PER_SEC;
+        if (d >= 0) {
+            printf("Goal state found with distance %d, nodes expanded %ld, time %f\n", d, nodes_expanded, time);
+        } else {
+            printf("No goal state found, nodes expanded %ld, time %fs\n", nodes_expanded, time);
+        }
     }
 
     return 0;

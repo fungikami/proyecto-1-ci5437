@@ -8,7 +8,7 @@ using namespace std;
 
 #define MAX_LINE_LENGTH 999
 
-int64_t nodes_expanded;
+unsigned long int nodes_expanded;
 
 /**
  * Visits the state and its children up to a certain depth
@@ -28,10 +28,7 @@ pair<Node *, unsigned> f_bounded_dfs_visit(Node *n, unsigned bound, int hist, in
     if (f > bound) return make_pair(nullptr, f);
 
     // If the state is a goal state, return the node
-    if (is_goal(&n->state)) {
-        printf("Goal state found with distance %d, nodes expanded %ld\n", n->path_cost, nodes_expanded);
-        return make_pair(n, n->path_cost);
-    }
+    if (is_goal(&n->state)) return make_pair(n, n->path_cost);
 
     // Expand the node
     nodes_expanded++;
@@ -65,7 +62,7 @@ pair<Node *, unsigned> f_bounded_dfs_visit(Node *n, unsigned bound, int hist, in
 Node ida_star(state_t *state, int (*h)(state_t*)) {
     Node root(*state, NULL, 0);
     pair<Node *, int> p;
-    unsigned bound = h(state);
+    unsigned long int bound = h(state);
 
     while (1) {
         p = f_bounded_dfs_visit(&root, bound, init_history, h);
@@ -79,6 +76,9 @@ int main(int argc, char **argv) {
     char str[MAX_LINE_LENGTH + 1], *filename;
     ssize_t n; 
     state_t state; 
+    state_t state; 
+    clock_t start, end;
+    float time;
     
     for (;;) {
         if (fgets(str, sizeof str, stdin) == NULL) return 0; 
@@ -90,7 +90,12 @@ int main(int argc, char **argv) {
         }
 
         nodes_expanded = 0;
+        start = clock();
         Node node = ida_star(&state, heuristic);
+        end = clock();
+
+        time = (float)(end - start) / CLOCKS_PER_SEC;
+        printf("Goal state found with distance %d, nodes expanded %ld, time %f\n", node.path_cost, nodes_expanded, time);
     }
 
     return 0;

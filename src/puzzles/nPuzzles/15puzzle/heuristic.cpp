@@ -59,7 +59,6 @@ int heuristic(state_t *state) {
 		sum += *state_map_get(state_maps[i], aux_state);
 
 	}
-	printf("Heuristic value: %d\n", sum);
 
 	delete aux_state;
 	return sum;

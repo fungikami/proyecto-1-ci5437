@@ -25,52 +25,46 @@ node.hpp:
 	cp $(ROOTPATH)/algorithms/node.hpp ./node.hpp
 
 %.c: %.psvn psvn2c_core.c psvn2c_state_map.c psvn2c_abstraction.c
-	@echo "**** Constructing $@ ..."
 	@$(ROOTPATH)/psvnAPI/bin/psvn2c $(PSVNOPT) --name=$(*F) < $< > $@
 	@rm -f ./psvn2c_core.c ./psvn2c_state_map.c ./psvn2c_abstraction.c
 
 .PRECIOUS: %.c
 
 %.succ: %.c $(ROOTPATH)/psvnAPI/global/succ.c
-	@echo "**** Constructing $@ ..."
 	@$(CC) $(OPT) $(ROOTPATH)/psvnAPI/global/succ.c -include $< -o $@
 	@rm -f $*.c
 
 %.dist: %.c $(ROOTPATH)/psvnAPI/global/dist.cpp
-	@echo "**** Constructing $@ ..."
 	@$(CXX) $(OPT) $(ROOTPATH)/psvnAPI/global/dist.cpp -include $< -o $@
 	@rm -f $*.c
 
 %.distSummary: %.c $(ROOTPATH)/psvnAPI/global/distSummary.cpp
-	@echo "**** Constructing $@ ..."
 	@$(CXX) $(OPT) $(ROOTPATH)/psvnAPI/global/distSummary.cpp -include $< -o $@
 	@rm -f $*.c
 
 %.generator: %.c $(ROOTPATH)/psvnAPI/global/generator.cpp
-	@echo "**** Constructing $@ ..."
 	@$(CXX) $(OPT) $(ROOTPATH)/psvnAPI/global/generator.cpp -include $< -o $@
 	@rm -f $*.c
 
 abstractor:
-	@echo "**** Constructing abstractor ..."
 	@$(CXX) $(OPT) $(ROOTPATH)/psvnAPI/src/abstractor.cpp $(ROOTPATH)/psvnAPI/src/psvn.cpp -o $@
 
 %.pdb: abstractor
 	@rm -f `dirname $*`_`basename $*`.{abst,pdb,psvn}
-	@echo "**** Running abstractor on `dirname $*`.psvn with `basename $*`.txt ..."
 	@./abstractor `dirname $*`.psvn `dirname $*`_`basename $*` < `basename $*`.txt > /dev/null
 	@make `dirname $*`_`basename $*`.distSummary
-	@echo "**** Constructing PDB `basename $*`.pdb ..."
 	@./`dirname $*`_`basename $*`.distSummary `dirname $*`_`basename $*`.pdb
 	@rm -f abstractor `dirname $*`_`basename $*`.distSummary `dirname $*`_`basename $*`.psvn
 
 %.dist_pdb: %.c $(ROOTPATH)/psvnAPI/global/dist_pdb.cpp
-	@echo "**** Constructing $@ ..."
 	@$(CXX) $(OPT) $(ROOTPATH)/psvnAPI/global/dist_pdb.cpp -include $< -o $@
 	@rm -f $*.c
 
 %.a_star: %.c $(ROOTPATH)/algorithms/a_star.cpp priority_queue.hpp node.hpp
 	$(CXX) $(OPT) $(ROOTPATH)/algorithms/a_star.cpp -include $< -include heuristic.cpp -o $@
+
+%.a_starM: %.c $(ROOTPATH)/algorithms/a_star.cpp priority_queue.hpp node.hpp
+	$(CXX) $(OPT) $(ROOTPATH)/algorithms/a_star.cpp -include $< -include manhattan.cpp -o $@
 
 %.ida_star: %.c $(ROOTPATH)/algorithms/ida_star.cpp priority_queue.hpp node.hpp
 	$(CXX) $(OPT) $(ROOTPATH)/algorithms/ida_star.cpp -include $< -include heuristic.cpp -o $@
