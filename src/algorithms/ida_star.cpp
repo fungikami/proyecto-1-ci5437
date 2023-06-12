@@ -15,6 +15,8 @@ unsigned long int nodes_expanded;
  * 
  * @param n The node to visit
  * @param bound The maximum depth
+ * @param hist The history of the state
+ * @param h Heuristic function, returns the heuristic value of a state
  * @return A pair containing the goal node and its cost
  */
 pair<Node *, unsigned> f_bounded_dfs_visit(Node *n, unsigned bound, int hist, int (*h)(state_t*)) {
@@ -25,6 +27,9 @@ pair<Node *, unsigned> f_bounded_dfs_visit(Node *n, unsigned bound, int hist, in
 
     // If the f-value is greater than the bound, return the f-value
     unsigned f = n->path_cost + h(&n->state);
+    // if 
+    // printf("f = %d\n", f);
+
     if (f > bound) return make_pair(nullptr, f);
 
     // If the state is a goal state, return the node
@@ -45,7 +50,7 @@ pair<Node *, unsigned> f_bounded_dfs_visit(Node *n, unsigned bound, int hist, in
 
         // Visit the child node
         pair<Node *, unsigned> p = f_bounded_dfs_visit(&m, bound, next_fwd_history(hist, ruleid), h);
-        if (p.first != NULL) return p;
+        if (p.first != nullptr) return p;
         t = min(t, p.second);
     }
 
@@ -60,13 +65,14 @@ pair<Node *, unsigned> f_bounded_dfs_visit(Node *n, unsigned bound, int hist, in
  * @return The goal node
  */
 Node ida_star(state_t *state, int (*h)(state_t*)) {
-    Node root(*state, NULL, 0);
+    Node root(*state, nullptr, 0);
     pair<Node *, int> p;
     unsigned long int bound = h(state);
 
-    while (1) {
+    for(;;) {
+        printf("bound = %ld\n", bound);
         p = f_bounded_dfs_visit(&root, bound, init_history, h);
-        if (p.first != NULL) return *p.first;
+        if (p.first != nullptr) return *p.first;
         bound = p.second;
     }
 }
@@ -80,7 +86,7 @@ int main(int argc, char **argv) {
     float time;
     
     for (;;) {
-        if (fgets(str, sizeof str, stdin) == NULL) return 0; 
+        if (fgets(str, sizeof str, stdin) == nullptr) return 0; 
 
         n = read_state(str, &state);
         if (n <= 0) {
