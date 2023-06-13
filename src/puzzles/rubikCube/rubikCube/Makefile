@@ -63,14 +63,8 @@ abstractor:
 %.a_star: %.c $(ROOTPATH)/algorithms/a_star.cpp priority_queue.hpp node.hpp
 	$(CXX) $(OPT) $(ROOTPATH)/algorithms/a_star.cpp -include $< -include heuristic.cpp -o $@
 
-%.a_starM: %.c $(ROOTPATH)/algorithms/a_star.cpp priority_queue.hpp node.hpp
-	$(CXX) $(OPT) $(ROOTPATH)/algorithms/a_star.cpp -include $< -include manhattan.cpp -o $@
-
 %.ida_star: %.c $(ROOTPATH)/algorithms/ida_star.cpp priority_queue.hpp node.hpp
 	$(CXX) $(OPT) $(ROOTPATH)/algorithms/ida_star.cpp -include $< -include heuristic.cpp -o $@
-
-%.ida_starM: %.c $(ROOTPATH)/algorithms/ida_star.cpp priority_queue.hpp node.hpp
-	$(CXX) $(OPT) $(ROOTPATH)/algorithms/ida_star.cpp -include $< -include manhattan.cpp -o $@
 
 .PHONY: clean
 clean:
