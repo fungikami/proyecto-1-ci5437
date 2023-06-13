@@ -61,5 +61,6 @@ int heuristic(state_t *state) {
 	}
 
 	delete aux_state;
+
 	return sum;
 }

@@ -27,9 +27,6 @@ pair<Node *, unsigned> f_bounded_dfs_visit(Node *n, unsigned bound, int hist, in
 
     // If the f-value is greater than the bound, return the f-value
     unsigned f = n->path_cost + h(&n->state);
-    // if 
-    // printf("f = %d\n", f);
-
     if (f > bound) return make_pair(nullptr, f);
 
     // If the state is a goal state, return the node
@@ -70,7 +67,6 @@ Node ida_star(state_t *state, int (*h)(state_t*)) {
     unsigned long int bound = h(state);
 
     for(;;) {
-        printf("bound = %ld\n", bound);
         p = f_bounded_dfs_visit(&root, bound, init_history, h);
         if (p.first != nullptr) return *p.first;
         bound = p.second;
@@ -84,7 +80,9 @@ int main(int argc, char **argv) {
     state_t state; 
     clock_t start, end;
     float time;
-    
+
+    init_heuristic();
+
     for (;;) {
         if (fgets(str, sizeof str, stdin) == nullptr) return 0; 
 

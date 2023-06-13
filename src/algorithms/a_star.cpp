@@ -77,6 +77,8 @@ int main(int argc, char **argv) {
     clock_t start, end;
     float time;
 
+    init_heuristic();
+
     for (;;) {
         if (fgets(str, sizeof str, stdin) == NULL) return 0;
 
@@ -93,11 +95,14 @@ int main(int argc, char **argv) {
         end = clock();
 
         time = (float)(end - start) / CLOCKS_PER_SEC;
-        if (d >= 0) {
-            printf("Goal state found with distance %d, nodes expanded %ld, time %f\n", d, nodes_expanded, time);
-        } else {
-            printf("No goal state found, nodes expanded %ld, time %fs\n", nodes_expanded, time);
-        }
+        if (d >= 0) printf(
+            "Goal state found with distance %d, nodes expanded %ld, time %f\n",
+            d, nodes_expanded, time
+        );
+        else printf(
+            "No goal state found, nodes expanded %ld, time %fs\n",
+            nodes_expanded, time
+        );
     }
 
     return 0;
