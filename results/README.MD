@@ -376,5 +376,31 @@ Para los casos generados con profundidad 15, el algoritmo A* no termina de ejecu
 ### 4.3. Análisis de resultados
 
 
+Luego de obtener los resultados de los experimentos, se pueden realizar las siguientes observaciones:
+
+- Para el 15 puzzle, se puede observar que para el caso con la heurística de distancia Manhattan implementada, el único algoritmo que logró ser ejecutado fue A* con los casos de dificultad fácil. Por otro lado, con PDBs Aditivos, el algoritmo A* obtuvo mejores tiempos en ejecución.
+
+- Para el 24 puzzle, en general, ambos algoritmos presentaron tiempos de ejecución similares para los distintos casos. No obstante, a medida que la distancia aumenta, IDA* presenta un número de nodos expandidos mayor y con ello, un tiempo de ejecución mayor.
+
+- Para los distintos casos del Top-Spin, en general, IDA* presentó un tiempo de ejecución mejor que con A*. A su vez, para el caso de Top-Spin 17-4, A* no logra de terminar su ejecución en casos con distancia igual a 15, dado que se agota la memoria del computador.
+
+- Para los distintos casos de la Torre de Hanoi, el algoritmo A* presentó un tiempo de ejecución mejor que con IDA*. A su vez, en los Top-Spin 12-4 y 14-4 con los casos generados de profundidad = 2000, IDA* no logra ejecutarse en un tiempo límite de 15 minutos (casos donde en A* se expande un número mayor de 120000 nodos aproximadamente). No obstante, para el Top-Spin 18-4, IDA* logra ejecutarse en un tiempo menor que A*, siendo casos donde no se expanden más de 40 nodos en IDA*. 
+
+- Para el Cubo de Rubik 3x3x3, los tiempos de ejecución de ambos algoritmos fueron similares cuando la distancia a la solución fuera menor que 10. No obstante, a mayor distancia, A* no logra terminar la ejecución dado que se agota la memoria del computador.
+
+- Como generalidad, se logra observar el intercambio que existe entre complejidad temporal y espacial de los algoritmos: mientras que no necesariamente uno de los algoritmos siempre expande menos nodos que el otro, para casos de mayor dificultad el algoritmo A* da con una solución de forma más rápida, en cuanto se tenga memoria suficiente para ejecutarlo. Por otro lado, el IDA* aliviana este requerimiento a una cantidad de espacio lineal, por lo que, a pesar de ser útil en casos en los que el A* no logra terminar por falta de recursos computacionales, hace esto a costas de un tiempo de ejecución mucho más elevado.
+
+- Dependiendo de la forma del problema, existen problemas que - por lo menos empíricamente- no pueden hacerse más difíciles. Esto se llega a notar en casos como el Top Spin 12-4, en el que los casos de prueba generados con profundidad de 2 millones no llega a ser considerablemente más difícil que a profundidad 20.
+
+- Un factor que en situaciones puede aventajar al IDA* es el hecho fortuito de encontrarse con el camino óptimo expandiendo menos nodos que el A*, lo cual suele ser más común en casos de poca dificultad, en los que el A* debe terminar de revisar todos los nodos con un f-valor dado antes de avanzar al siguiente.
+
+- La forma en que se representa el problema, y la forma en que se guardan y codifican las PDB tiene un impacto fundamental en la eficiencia y eficacia de los algoritmos, y esto se nota más en casos críticos. En varios de los casos el tamaño de las PDBs se hacía muy elevado, hasta el punto que solo cargarla requería ~2500 megabytes de RAM, haciendo el problema incosteable en computadores con recursos más limitados. En este sentido, la facilidad que da para el desarrollo un lenguaje de propósito específico como PSVN hace perder cierta flexibilidad en la representación del problema y la forma en que este se guarda en una PDB, lo cual puede ser deseable en caso de quere aprovechar al máximo los recursos disponibles.
+
 ## 5. Conclusiones
+
+En general, el rendimiento de algoritmos como A* e IDA* dependen del tipo de problema al que se quiera resolver, y con ello, la dificultad de los casos de prueba. Se observó que mientras la longitud de las soluciones de un puzzle sea mayor, peor será su rendimiento con IDA*, dado que tendrá que recorrer todo el espacio de búsqueda en cada profundidad (como se pudo observar con las Torres de Hanoi). En cambio, si las soluciones tienen un longitud pequeña, IDA* tendrá un mejor rendimiento  (como se pudo observar con el Top-Spin).
+
+Asimismo, la elección de las heurísticas pueden influir en el rendimiento de los algoritmos. Por ejemplo, para el 15 puzzle, al tomar como heurística la distancia Manhattan, no se logró ejecutar la mayoría de los casos seleccionados. En cambio, al tomar como heurística PDBs Aditivos, se logró ejecutar todos los casos seleccionados.
+
+En conclusión, se puede decir que el algoritmo A* es, tal como dice la teoría (asintóticamente óptimo), eficiente y el más favorable a elegir cuando se dispone de los recursos, mientras que IDA* es más favorable cuando se dispone de más tiempo o en instancias del problema sencillos.
 
