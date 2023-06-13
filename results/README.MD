@@ -108,7 +108,7 @@ Las abstracciones utilizadas para generar los PDBs corresponden a subdivisiones 
 
 ##### Máximo de PDBs:
 
-| ![15puzzle](./Heuristics/topSpin12-4.png) | ![24puzzle](./Heuristics/topSpin12-4.png) | ![24puzzle](./Heuristics/topSpin17-4.png) |
+| ![15puzzle](./Heuristics/topSpin12-4.png) | ![24puzzle](./Heuristics/topSpin14-4.png) | ![24puzzle](./Heuristics/topSpin17-4.png) |
 |:-----------------------------:|:-----------------------------:| :-----------------------------:|
 | Figura 4.1 | Figura 4.2 | Figura 4.3 |
 
