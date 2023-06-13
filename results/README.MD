@@ -136,6 +136,100 @@ Para el estudio de los algoritmos de búsqueda informada, se implementaron los a
 
 ### 4.2. Resultados experimentales
 
+#### 4.2.1. N-puzzle
+
+##### 15-puzzle
+
+Para el caso de 15-puzzle se escogieron distintos casos del benchmark suministrado por la página web de la asignatura. Los resultados obtenidos se muestran en la siguiente tabla:
+
+<table>
+    <thead>
+        <tr>
+            <th>Dificultad</th>
+            <th>Caso</th>
+            <th>Distancia</th>
+            <th>Nodos Expandidos (A*)</th>
+            <th>Tiempo (s) (A*)</th>
+            <th>Nodos Expandidos (IDA*)</th>
+            <th>Tiempo (s) (IDA*)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>F</td>
+            <td>001</td>
+            <td>53</td>
+            <td>758692</td>
+            <td>0.238309</td>
+            <td>-</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>F</td>
+            <td>098</td>
+            <td>54</td>
+            <td>10979210</td>
+            <td>3.515864</td>
+            <td>-</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>M</td>
+            <td>066</td>
+            <td>61</td>
+            <td>183969804</td>
+            <td>67.610847</td>
+            <td>-</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>M</td>
+            <td>092</td>
+            <td>57</td>
+            <td>122188242</td>
+            <td>42.458721</td>
+            <td>-</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>D</td>
+            <td>060</td>
+            <td>66</td>
+            <td>209369274</td>
+            <td>73.483856</td>
+            <td>-</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>D</td>
+            <td>088</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+        </tr>
+    </tbody>
+</table>
+
+##### 24-puzzle
+
+Casos:
+- Fácil: 
+- Mediano: 
+- Difícil: 
+
+| Dificultad | Caso | Distancia | Nodos Expandidos | Tiempo (s) |
+|:---------: |:----:|:---------:|:----------------:|:----------:|
+|     F      | 001  |  53       |  758692          |  0.238309  |
+|     F      | 098  |  54       |  10979210        |  3.515864  |
+|     M      | 066  |  61       |  183969804       |  67.610847 |
+|     M      | 092  |  57       |  122188242       |  42.458721 |
+|     D      | 060  |  66       |  209369274       |  73.483856 |
+|     D      | 088  |  0        |  1               |  0.000     |
+#### 4.2.3. Top Spin 
+
+
 ### 4.3. Análisis de resultados
 
 ## 5. Conclusiones
