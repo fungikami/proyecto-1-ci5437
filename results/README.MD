@@ -99,23 +99,32 @@ Las abstracciones utilizadas para generar los PDBs corresponden a subdivisiones 
 
 | ![15puzzle](./Heuristics/15puzzle.png) | ![24puzzle](./Heuristics/24puzzle.png) |
 |:-----------------------------:|:-----------------------------:|
-| Figura 3.1 | Figura 3.2 |
+| Figura 3.1 15-puzzle | Figura 3.2 24-puzzle |
 
-
-#### Torre de Hanoi (4-12, 4-14, 4-18)
-
-##### Máximo de PDBs:
 
 #### Top Spin (12-4, 14-4, 17-4)
 
 ##### Máximo de PDBs:
 
+| ![15puzzle](./Heuristics/topSpin12-4.png) | ![24puzzle](./Heuristics/topSpin12-4.png) | ![24puzzle](./Heuristics/topSpin17-4.png) |
+|:-----------------------------:|:-----------------------------:| :-----------------------------:|
+| Figura 4.1 | Figura 4.2 | Figura 4.3 |
 
+#### Torre de Hanoi (4-12, 4-14, 4-18)
+
+##### Máximo de PDBs:
+
+| ![Hanoi](./Heuristics/hanoi4-12.png) | ![Hanoi](./Heuristics/hanoi4-14.png) | ![Hanoi](./Heuristics/hanoi4-18.png) |
+|:-----------------------------:|:-----------------------------:| :-----------------------------:|
+| Figura 5.1 Hanoi 4-12 | Figura 5.2 Hanoi 4-14 | Figura 5.3 Hanoi 4-18 |
 
 #### Cubo de Rubik 3x3x3
 
 ##### Máximo de PDBs:
 
+| ![Rubik](./Heuristics/rubik1.png) | ![Rubik](./Heuristics/rubik2.png) | ![Rubik](./Heuristics/rubik3.png) |
+|:-----------------------------:|:-----------------------------:| :-----------------------------:|
+| Figura 6.1 Rubik Esquinas | Figura 6.2 Rubik Lados | Figura 6.3 Rubik Lados |
 
 
 ## 4. Algoritmos de búsqueda informada

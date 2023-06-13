@@ -1,6 +1,6 @@
-map colour YELLOW BLUE
-map colour ORANGE BLUE
-map colour WHITE BLUE
+map colour WHITE ORANGE
+map colour GREEN ORANGE
+map colour BLUE ORANGE
 project 1
 project 3
 project 5
