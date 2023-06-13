@@ -18,7 +18,8 @@ Por ello, en el siguiente trabajo se estudiará el modelo de espacio de estados 
 
 ### 2.1. Implementación de algoritmos de búsqueda
 
-Para estudiar el factor de ramificación de los árboles de búsqueda de cada problema, se implementaron los algoritmos de Búsqueda en Amplitud (*BFS*) y Búsqueda en Profundidad Iterativa (*IDDFS*). Para cada problema, se ejecutaron los algoritmos con y sin eliminación de duplicados, y se registró el número de estados generados a cada profundidad. 
+Para estudiar el factor de ramificación de los árboles de búsqueda de cada problema, se implementaron los algoritmos de Búsqueda en Amplitud (*BFS*) y Búsqueda en Profundidad Iterativa (*IDDFS*). Para cada problema, se ejecutaron los algoritmos con y sin eliminación de duplicados, y se registró el número de estados generados a cada profundidad.
+
 ### 2.2. Resultados experimentales
 
 #### 2.2.1. Búsqueda en Amplitud (BFS)
@@ -137,6 +138,22 @@ Para el estudio de los algoritmos de búsqueda informada, se implementaron los a
 
 ### 4.2. Resultados experimentales
 
+### 4.2.0. Entorno de pruebas
+
+Para la ejecución de los algoritmos de búsqueda informada, se utilizaron computadores con las siguientes características:
+
+| Procesador | RAM | Sistema Operativo |
+|:----------:|:---:|:-----------------:|
+| Intel i3-2120 (4) @ 3.300GHz | 3797MiB | Debian GNU/Linux 11 (bullseye) x86_64 |
+| Intel i5-1035G1 (8) @ 3.600GHz | 7689MiB | Pop!_OS 22.04 LTS x86_64 |
+
+Por otro lado, los algoritmos de búsqueda fueron implementados en C++, compilado con `g++ (Ubuntu 11.3.0-1ubuntu1~22.04) 11.3.0` usando las flags `-Wall -Ofast -Wno-unused-function -Wno-unused-variable -march=native`.
+
+Para la generación del espacio de estados, las PDBs y las abstracciones se usó el lenguaje declarativo de propósito específico PSVN (01 de Junio de 2014) y el compilador `psvn2c`.
+
+Finalmente, para la generación de los árboles de búsqueda de la parte 2 se registró un signal handler para el signal `SIGTERM` y el comando `timeout 900` de coreutils para limitar el tiempo de ejecución de los algoritmos y mostrar la cantidad de nodos expandidos hasta el momento de la interrupción. Además, se utilizó el comando `taskset -c <num>` para asignar los procesos a un único core de la CPU y mantener la consistencia en los tiempos de ejecución a la vez que se evita la migración de procesos entre cores por parte del scheduler del sistema operativo.
+
+
 #### 4.2.1. N-puzzle
 
 ##### 15-puzzle
@@ -251,8 +268,11 @@ En las siguientes tablas se muestran los resultados obtenidos al ejecutar A* y I
 | 2000000     | 15        | -                | -          | 9567393          | 28.303879  |
 | 2000000     | 15        | -                | -          | 11708099         | 30.111568  |
 
+Para los casos de distancia 15, el algoritmo A* no termina de ejecutarse dado que se agota la memoria del computador. 
 
 #### 4.2.3. Torre de Hanoi
+
+Para los casos de la Torre de Hanoi, se generaron casos de prueba de profundidad 250 y 2000. En la siguiente tabla se muestran los resultados obtenidos para cada uno de los casos.
 
 ##### 12-4
 
@@ -277,7 +297,9 @@ En las siguientes tablas se muestran los resultados obtenidos al ejecutar A* y I
 | 2000        | 19        | 54852            | 0.015606   | - | - |
 | 2000        | 37        | 174733374        | 40.291119  | - | - |
 | 2000        | 25        | 1295760          | 0.307966   | - | - |
-| 2000        | 15        | 2050             | 0.000701   | - | - |  
+| 2000        | 15        | 2050             | 0.000701   | - | - | 
+
+Para los casos generados con profundidad 2000, el algoritmo IDA* no termina de ejecutarse tras más de 15 minutos de ejecución.
 
 ##### 14-4
 
@@ -304,6 +326,8 @@ En las siguientes tablas se muestran los resultados obtenidos al ejecutar A* y I
 | 2000        | 17        |36                | 0.000036   | - | - |
 | 2000        | 27        |766014            | 0.212964   | - | - |
 
+Para los casos generados con profundidad 2000, el algoritmo IDA* no termina de ejecutarse tras más de 15 minutos de ejecución.
+
 ##### 18-4 
 
 | Profundidad | Distancia |  Nodos Expandidos (A*) | Tiempo (s) (A*) | Nodos Expandidos (IDA*) | Tiempo (s) (IDA*) |
@@ -320,12 +344,34 @@ En las siguientes tablas se muestran los resultados obtenidos al ejecutar A* y I
 |  2000       | 29        | 60               | 0.000105   | 29      | 0.000046 |
 
 
-
 #### 4.2.4. Cubo de Rubik 3x3x3
+
+Para el caso del Cubo de Rubik 3x3x3 se generaron varios casos de pruebas de profundidad 10 y 15. Los resultados obtenidos se muestran en la siguiente tabla:
 
 | Profundidad | Distancia |  Nodos Expandidos (A*) | Tiempo (s) (A*) | Nodos Expandidos (IDA*) | Tiempo (s) (IDA*) |
 |:----------: |:---------:|:----------------:|:----------:|:----------------:|:----------:|
+| 10          | 8         | 60               | 0.000337   | 11               | 0.000152   |
+| 10          | 8         | 580              | 0.001876   | 229              | 0.002478   |
+| 10          | 8         | 80               | 0.000520   | 39               | 0.000410   |
+| 10          | 10        | 8962             | 0.049020   | 1880             | 0.021890   |
+| 10          | 4         | 10               | 0.000097   | 4                | 0.000021   |
+| 10          | 9         | 102              | 0.000620   | 41               | 0.000448   |
+| 10          | 7         | 1374             | 0.003806   | 171              | 0.001987   |
+| 10          | 7         | 24               | 0.000139   | 7                | 0.000050   |
+| 10          | 7         | 24               | 0.000153   | 16               | 0.000142   |
+| 10          | 8         | 50               | 0.000362   | 24               | 0.000242   |
+| 15          | 13        | -                | -          | 8421346          | 76.624748  | 
+| 15          | 10        | -                | -          | 3489             | 0.042593   |
+| 15          | 12        | -                | -          | 55730            | 0.630784   |
+| 15          | 13        | -                | -          | 1675391          | 18.259687  |
+| 15          | 13        | -                | -          | 1418391          | 15.173393  |
+| 15          | 12        | -                | -          | 276867           | 2.775264   |
+| 15          | 12        | -                | -          | 382545           | 4.149523   |
+| 15          | 11        | -                | -          | 149057           | 1.438193   |
+| 15          | 11        | -                | -          | 17431            | 0.192606   |
+| 15          | 14        | -                | -          | 18994540         | 177.679749 |
 
+Para los casos generados con profundidad 15, el algoritmo A* no termina de ejecutarse dado que se agota la memoria del computador.
 
 ### 4.3. Análisis de resultados
 
