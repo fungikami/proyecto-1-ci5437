@@ -50,3 +50,4 @@ src/puzzles/****/*.c
 *.a_star
 *.ida_starM
 *.ida_star
+out*
