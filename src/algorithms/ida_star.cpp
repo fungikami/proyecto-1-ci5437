@@ -67,6 +67,7 @@ Node ida_star(state_t *state, int (*h)(state_t*)) {
     unsigned long int bound = h(state);
 
     for(;;) {
+        printf("Exploring with depth bound %ld\n", bound);
         p = f_bounded_dfs_visit(&root, bound, init_history, h);
         if (p.first != nullptr) return *p.first;
         bound = p.second;
