@@ -1,3 +1,4 @@
+
 ### CI5437 - Inteligencia Artificial 1
 ##### Prof. Carlos Infante
 
@@ -140,97 +141,101 @@ Para el estudio de los algoritmos de búsqueda informada, se implementaron los a
 
 ##### 15-puzzle
 
-Para el caso de 15-puzzle se escogieron distintos casos del benchmark suministrado por la página web de la asignatura. Los resultados obtenidos se muestran en la siguiente tabla:
+Para el caso de 15-puzzle se escogieron distintos casos del benchmark suministrado por en el repositorio del proyecto. Los resultados obtenidos al ejecutar A* y IDA* con las distintas heurísticas implementadas se muestran en la siguiente tabla:
 
-<table>
-    <thead>
-        <tr>
-            <th>Dificultad</th>
-            <th>Caso</th>
-            <th>Distancia</th>
-            <th>Nodos Expandidos (A*)</th>
-            <th>Tiempo (s) (A*)</th>
-            <th>Nodos Expandidos (IDA*)</th>
-            <th>Tiempo (s) (IDA*)</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>F</td>
-            <td>001</td>
-            <td>53</td>
-            <td>758692</td>
-            <td>0.238309</td>
-            <td>-</td>
-            <td>-</td>
-        </tr>
-        <tr>
-            <td>F</td>
-            <td>098</td>
-            <td>54</td>
-            <td>10979210</td>
-            <td>3.515864</td>
-            <td>-</td>
-            <td>-</td>
-        </tr>
-        <tr>
-            <td>M</td>
-            <td>066</td>
-            <td>61</td>
-            <td>183969804</td>
-            <td>67.610847</td>
-            <td>-</td>
-            <td>-</td>
-        </tr>
-        <tr>
-            <td>M</td>
-            <td>092</td>
-            <td>57</td>
-            <td>122188242</td>
-            <td>42.458721</td>
-            <td>-</td>
-            <td>-</td>
-        </tr>
-        <tr>
-            <td>D</td>
-            <td>060</td>
-            <td>66</td>
-            <td>209369274</td>
-            <td>73.483856</td>
-            <td>-</td>
-            <td>-</td>
-        </tr>
-        <tr>
-            <td>D</td>
-            <td>088</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-        </tr>
-    </tbody>
-</table>
+###### Distancia Manhattan
+
+
+| Dificultad | Caso | Distancia | Nodos Expandidos (A*) | Tiempo (s) (A*) | Nodos Expandidos (IDA*) |Tiempo (s) (IDA*) |
+|:---------: |:----:|:---------:|:----------------:|:----------:|:----------------:|:----------:|
+|     F      | 001  |  53       | 3417680          | 0.420356   | -                 | -          |
+|     F      | 098  |  54       | 59287638         | 7.240532   | -                 | -          |
+|     M      | 066  |  61       | -                | -          | -                 | -          |
+|     M      | 092  |  57       | -                | -          | -                 | -          |
+|     D      | 060  |  66       | -                | -          | -                 | -          |
+|     D      | 088  |  0        | -                | -          | -                 | -          |
+
+###### PDBs Aditivos 
+
+| Dificultad | Caso | Distancia |  Nodos Expandidos (A*) | Tiempo (s) (A*) | Nodos Expandidos (IDA*) | Tiempo (s) (IDA*) |
+|:---------: |:----:|:---------:|:----------------:|:----------:|:----------------:|:----------:|
+|     F      | 001  |  53       |  758692          |  0.238309  |  1897987          |  0.532977758692           |
+|     F      | 098  |  54       |  10979210        |  3.515864  |  15470192         |  4.78792110979210         |
+|     M      | 066  |  61       |  183969804       |  67.610847 |  263565280        |  81.119598183969804       |
+|     M      | 092  |  57       |  122188242       |  42.458721 |   177216682       |  56.329090122188242       |
+|     D      | 060  |  66       |  209369274       |  73.483856 |  279640009        |  84.853249209369274       |
+|     D      | 088  |  0        |  -               |  -         |  294857932        |  93.753624-               |
 
 ##### 24-puzzle
 
-Casos:
-- Fácil: 
-- Mediano: 
-- Difícil: 
+En el caso de 24-puzzle, dado que no se pudo ejecutar los casos de prueba del benchmark proporcionado, se generó casos de pruebas con distintas profundidades. Los resultados obtenidos al ejecutar A* y IDA* con PDBs aditivas se muestran en la siguiente tabla:
 
-| Dificultad | Caso | Distancia | Nodos Expandidos | Tiempo (s) |
-|:---------: |:----:|:---------:|:----------------:|:----------:|
-|     F      | 001  |  53       |  758692          |  0.238309  |
-|     F      | 098  |  54       |  10979210        |  3.515864  |
-|     M      | 066  |  61       |  183969804       |  67.610847 |
-|     M      | 092  |  57       |  122188242       |  42.458721 |
-|     D      | 060  |  66       |  209369274       |  73.483856 |
-|     D      | 088  |  0        |  1               |  0.000     |
-#### 4.2.3. Top Spin 
+| Profundidad | Distancia |  Nodos Expandidos (A*) | Tiempo (s) (A*) | Nodos Expandidos (IDA*) | Tiempo (s) (IDA*) |
+|:----------: |:---------:|:----------------:|:----------:|:----------------:|:----------:|
+|   100       | 44          | 246674            | 0.126127  | 216515         |   0.127956   |
+|   100       | 42          | 29842             | 0.013072  | 36790          |   0.019922   |
+|   100       | 32          | 920               | 0.000449  | 746            |   0.000532   |
+|   100       | 32          | 3822              | 0.001733  | 3065           |   0.002027   |
+|   100       | 26          | 178               | 0.000106  | 100            |   0.000071   |
+|   100       | 34          | 810               | 0.000414  | 81             |   0.000054   |
+|   100       | 26          | 1132              | 0.000532  | 406            |   0.000266   |
+|   100       | 36          | 152               | 0.000105  | 40             |   0.000026   |
+|   100       | 38          | 3484              | 0.001688  | 6354           |   0.003590   |
+|   100       | 48          | 1087498           | 0.577211  | 1587177        |   0.972064   |
+|   150       | 60          | 37473366          | 22.741772 | 39199222       |   26.277927  |
+|   150       | 52          | 550888            | 0.282170  | 286317         |   0.193856   |
+|   150       | 38          | 29554             | 0.013817  | 21789          |   0.014983   |
+|   150       | 28          | 2680              | 0.001319  | 598            |   0.000445   |
+|   150       | 44          | 365360            | 0.168241  | 431845         |   0.291052   |
+|   150       | 56          | 140918            | 0.074927  | 186485         |   0.114000   |
+|   150       | 60          | 52241498          | 32.408016 | 65236811       |   45.932323  |
+|   150       | 54          | 540702            | 0.291398  | 944672         |   0.651577   |
+|   150       | 48          | 1285594           | 0.703550  | 1758325        |   1.279373   |
+|   150       | 40          | 14032             | 0.006908  | 8711           |   0.006590   |
+ 
+#### 4.2.2. Top Spin 
+
+##### 4-12
+
+| Profundidad | Distancia |  Nodos Expandidos (A*) | Tiempo (s) (A*) | Nodos Expandidos (IDA*) | Tiempo (s) (IDA*) |
+|:----------: |:---------:|:----------------:|:----------:|:----------------:|:----------:|
+
+##### 4-14
+
+| Profundidad | Distancia |  Nodos Expandidos (A*) | Tiempo (s) (A*) | Nodos Expandidos (IDA*) | Tiempo (s) (IDA*) |
+|:----------: |:---------:|:----------------:|:----------:|:----------------:|:----------:|
+
+##### 4-17
+
+| Profundidad | Distancia |  Nodos Expandidos (A*) | Tiempo (s) (A*) | Nodos Expandidos (IDA*) | Tiempo (s) (IDA*) |
+|:----------: |:---------:|:----------------:|:----------:|:----------------:|:----------:|
+
+#### 4.2.3. Torre de Hanoi
+
+##### 12-4
+
+| Profundidad | Distancia |  Nodos Expandidos (A*) | Tiempo (s) (A*) | Nodos Expandidos (IDA*) | Tiempo (s) (IDA*) |
+|:----------: |:---------:|:----------------:|:----------:|:----------------:|:----------:|
+
+##### 14-4
+
+| Profundidad | Distancia |  Nodos Expandidos (A*) | Tiempo (s) (A*) | Nodos Expandidos (IDA*) | Tiempo (s) (IDA*) |
+|:----------: |:---------:|:----------------:|:----------:|:----------------:|:----------:|
+
+##### 18-4
+
+| Profundidad | Distancia |  Nodos Expandidos (A*) | Tiempo (s) (A*) | Nodos Expandidos (IDA*) | Tiempo (s) (IDA*) |
+|:----------: |:---------:|:----------------:|:----------:|:----------------:|:----------:|
+
+
+#### 4.2.4. Cubo de Rubik 3x3x3
+
+| Profundidad | Distancia |  Nodos Expandidos (A*) | Tiempo (s) (A*) | Nodos Expandidos (IDA*) | Tiempo (s) (IDA*) |
+|:----------: |:---------:|:----------------:|:----------:|:----------------:|:----------:|
 
 
 ### 4.3. Análisis de resultados
+
 
 ## 5. Conclusiones
 

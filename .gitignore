@@ -45,6 +45,8 @@ src/puzzles/****/*.c
 # PSVN
 *.pdb
 *.abst
+*.generator
 *.a_starM
 *.a_star
+*.ida_starM
 *.ida_star
